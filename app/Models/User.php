@@ -19,31 +19,27 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
+        'role',
+        'owner_id',
         'password',
     ];
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function owner()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->belongsTo(User::class, 'owner_id');
+
     }
+    public function tenants()
+    {
+        return $this->hasMany(User::class, 'owner_id');
+    }
+    
+    public function properties()
+    {
+        return $this->hasMany(Property::class, 'owner_id');
+    }
+
 }

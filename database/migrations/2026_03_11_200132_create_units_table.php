@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
+            $table->string('unit_number');
+            $table->decimal('rent_amount', 10, 2);
+            $table->string('unit_class');
+            $table->foreignId('property_id')->constrained('properties')->onDelete('cascade');
+            $table->foreignId('tenant_id')->constrained('users')->onDelete('cascade')->nullable();
+            $table->enum('status', ['available', 'occupied'])->default('available');
             $table->timestamps();
         });
     }

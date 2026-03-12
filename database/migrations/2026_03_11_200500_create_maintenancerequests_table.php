@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('maintenancerequests', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('lease_id')->constrained()->nullable()->nullOnDelete;
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
+            $table->string('title');
+            $table->text('description');
+            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
+            $table->date('sent_at');
+            $table->date('resolved_at')->nullable();
+
         });
     }
 
