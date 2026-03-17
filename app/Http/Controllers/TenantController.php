@@ -46,13 +46,13 @@ class TenantController extends Controller
                 'email.unique' => 'The email is already registered.',
                 'phone.unique' => 'The phone number is already in use.',
             ]);
-
+        $validatedData['owner_id'] = $owner_id;
         //generate random password for tenant
         function getRandomString($length = 10){
             return bin2hex(random_bytes($length / 2));
         }
         $pword = getRandomString();
-        $validatedData['owner_id'] = $owner_id;
+
         $validatedData['password'] = bcrypt($pword);
 
         try {
