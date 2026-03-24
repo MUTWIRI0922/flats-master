@@ -12,7 +12,6 @@ class Unit extends Model
         'rent_amount',
         'unit_class',
         'property_id',
-        'tenant_id',
         'status',
     ];
 
@@ -21,8 +20,8 @@ class Unit extends Model
         return $this->belongsTo(Property::class, 'property_id');
     }
 
-    public function tenant()
+    public function leases()
     {
-        return $this->belongsTo(User::class, 'tenant_id');
+        return $this->hasMany(Lease::class, 'tenant_id');
     }
 }

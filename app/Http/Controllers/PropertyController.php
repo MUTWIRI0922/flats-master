@@ -13,7 +13,7 @@ class PropertyController extends Controller
     public function index(string $owner_id)
     {
         //list of all properties for a landlord/agent
-        $properties = Property::where('owner_id', $owner_id)->get   ();
+        $properties = Property::where('owner_id', $owner_id)->with('units')->get();
         return response()->json([
             'properties' => $properties
         ]);
