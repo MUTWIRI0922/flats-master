@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('units', function (Blueprint $table) {
-            $table->id();
+            $table->id()-> primary()->autoIncrement();
             $table->string('unit_number');
             $table->decimal('rent_amount', 10, 2);
             $table->string('unit_class');
