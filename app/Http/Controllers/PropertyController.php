@@ -34,7 +34,7 @@ class PropertyController extends Controller
     {
         //validate the request
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:properties',
             'location' => 'required|string|max:255',
             'amenities' => 'nullable|string',
         ]);

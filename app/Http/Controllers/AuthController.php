@@ -5,12 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use GuzzleHttp\Promise\Create;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->only(['update', 'logout', 'resetPassword']);
+    // }
+    public function index()
+    {
+        $users = User::all();
+        return[
+            'users' => $users
+        ];
+    }
     //registration of new landlord/agent
     public function register(Request $request)
     {
@@ -19,8 +31,8 @@ class AuthController extends Controller
             [
                 'first_name'=> 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:User',
-                'phone' => 'required|integer|min:10|max:12|unique:User',
+                'email' => 'required|string|email|max:255|unique:users',
+                'phone' => 'required|integer|min:10|unique:users',
                 'password' => 'required|string|min:8|confirmed',
 
             ],[
