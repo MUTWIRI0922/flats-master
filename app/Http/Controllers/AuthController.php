@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Subscription;
 
 class AuthController extends Controller
 {
@@ -83,33 +84,60 @@ class AuthController extends Controller
     }
     public function login(Request $request)
     {
+        // Step 1 — Validate inputs
         $credentials = $request->validate([
-            'email' => 'required|string|email',
+            'email'    => 'required|string|email',
             'password' => 'required|string',
         ]);
 
+        // Step 2 — Find the user
         $user = User::where('email', $credentials['email'])->first();
-        if ($user && Hash::check($credentials['password'], $user->password)) {
-            // Authentication passed
-            Auth::login($user);
-            return[
-                'user' => $user
-            
-            ];
-            // You can set session or token here as per your requirement
-            if ($user->is_agent){
-                return redirect()->route('/agent')->with('success', 'Login successful.')->compact('user');
-            } elseif ($user->is_admin) {
-                return redirect()->route('/admin')->with('success', 'Login successful.')->compact('user');
-            }
-            else{
-                return redirect()->route('/tenant')->with('success', 'Login successful.')->compact('user');
-            }
-            
-        } else {
-            return back()->with('error','Invalid credentials.')->withInput();
+
+        // Step 3 — Check credentials
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return back()
+                ->with('error', 'Invalid email or password.')
+                ->withInput();
         }
-    }   
+
+        // Step 4 — Log the user in (creates session)
+        Auth::login($user);
+
+        // Step 5 — Redirect based on role
+        if ($user->role === 'admin') {
+            return redirect('/admin/dashboard')
+                ->with('success', 'Welcome back!');
+        }
+
+        if ($user->role === 'landlord' || $user->role === 'agent') {
+            // Check their own subscription
+            $subscription = Subscription::where('owner_id', $user->id)->first();
+
+            if (!$subscription || $subscription->status !== 'active') {
+                return redirect('/subscription')
+                    ->with('error', 'Your subscription is not active. Please renew to continue.');
+            }
+
+            return redirect('/dashboard')
+                ->with('success', 'Login successful.');
+        }
+
+        if ($user->role === 'tenant') {
+            // Check their OWNER's subscription
+            $subscription = Subscription::where('owner_id', $user->owner_id)->first();
+
+            if (!$subscription || $subscription->status !== 'active') {
+                return redirect('/login')
+                    ->with('error', 'Your account is inactive. Please contact your landlord.');
+            }
+
+            return redirect('/tenant/dashboard')
+                ->with('success', 'Login successful.');
+        }
+
+        // Fallback — unknown role
+        return redirect('/login')->with('error', 'Unauthorized.');
+    }
     public function logout(Request $request)
     {
         Auth::logout();
