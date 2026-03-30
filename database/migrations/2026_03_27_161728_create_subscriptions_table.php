@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->id()->autoIncrement()->primary();
+            $table->id();
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->enum('plan', ['monthly', 'yearly', 'lifetime'])->default('monthly');
             $table->string('status');

@@ -13,10 +13,14 @@ class LeaseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(string $owner_id)
+    public function index(string $property)
     {
-        //list of all leases
-        $leases = Lease::where('owner_id', $owner_id)->get();
+        //list of all leases for a property
+        $property = Property::find($property)->with('units')->first();
+        if(!$property){
+            abort(404);
+        }
+        $leases = Lease::where('unit_id', $property->units->pluck('id'))->get();
         return[
             'leases' => $leases
         ];
@@ -29,7 +33,7 @@ class LeaseController extends Controller
     public function create($owner_id, $tenant_id)
     {
         $properties = Property::where('owner_id', $owner_id)->with('units')->where('status', 'available')->get();
-        $tenant = User::find($tenant_id)->where('is_tenant', true)->first();
+        $tenant = User::find($tenant_id)->first();
         return[
             'properties' => $properties,
             'tenant' => $tenant

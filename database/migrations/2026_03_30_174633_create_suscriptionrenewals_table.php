@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('suscriptionrenewals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subscription_id')->references('subscriptions')->constrained()->onDelete('cascade');
+            $table->foreignId('subscription_id')->constrained('subscriptions')->onDelete('cascade');
             $table->date('renewal_date');
         });
     }

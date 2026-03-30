@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('leases', function (Blueprint $table) {
-            $table->id()->primary()->autoIncrement();
+            $table->id();
             $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
             $table->foreignId('tenant_id')->constrained('users')->onDelete('cascade');
             $table->date('start_date');

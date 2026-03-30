@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id()-> primary()->autoIncrement();
+            $table->id();
             $table->foreignId('lease_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2);
             $table->date('payment_date');
