@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\RolePermission;
 
 
-class RolePermissionseeder extends Seeder
+class RolePermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,40 +18,38 @@ class RolePermissionseeder extends Seeder
     {
         //seed roles
         $roles = [
-            ['name' => 'Admin', 'guard_name' => 'web'],
-            ['name' => 'Agent', 'guard_name' => 'web'],
-            ['name' => 'Tenant', 'guard_name' => 'web'],    
+            'Admin',
+            'Agent',
+            'Tenant',
         ];
         foreach ($roles as $role) {
-            Role::create($role);
+            Role::firstOrCreate(['name' => $role, 'guard_name' => 'web']);
         }
         //seed permissions
         $permissions = [
-            ['name' => 'manage properties', 'guard_name' => 'web'],
-            ['name' => 'manage tenants', 'guard_name' => 'web'],
-            ['name' => 'manage agents', 'guard_name' => 'web'],
-            ['name' => 'view properties', 'guard_name' => 'web'],
-            ['name' => 'view tenants', 'guard_name' => 'web'],
-            ['name' => 'view agents', 'guard_name' => 'web'],
-            ['name' => 'manage leases', 'guard_name' => 'web'],
-            ['name' => 'view leases', 'guard_name' => 'web'],
-            ['name' => 'manage payments', 'guard_name' => 'web'],
-            ['name' => 'view payments', 'guard_name' => 'web'],
-            ['name' => 'manage maintenance requests', 'guard_name' => 'web'],
-            ['name' => 'view maintenance requests', 'guard_name' => 'web'],
-            ['name' => 'manage lease renewals', 'guard_name' => 'web'],
-            ['name' => 'view lease renewals', 'guard_name' => 'web'],
-            ['name' => 'manage users', 'guard_name' => 'web'],
-            ['name' => 'view users', 'guard_name' => 'web'],
-            ['name' => 'manage roles', 'guard_name' => 'web'],
-            ['name' => 'manage permissions', 'guard_name' => 'web'],
+            'manage properties',
+            'manage tenants',
+            'manage agents',
+            'view properties',
+            'view tenants',
+            'view agents',
+            'manage leases',
+            'view leases',
+            'manage payments',
+            'view payments',
+            'manage maintenance requests',
+            'view maintenance requests',
+            'manage lease renewals',
+            'view lease renewals',
+            'manage users',
+            'view users',
+            'manage roles',
+            'manage permissions',
         ];
         foreach ($permissions as $permission) {
-            Permission::create($permission);
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }
-        //assign permissions to roles
-        $adminRole = Role::where('name', 'Admin')->first();
-        $adminRole->syncPermissions(Permission::all());
+
 
     }
 }

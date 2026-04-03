@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\UnitImportController;
@@ -20,10 +20,18 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('register');
 })->name('register');
-
+    Route::get('/admin/dashboard', function () {
+        return view('admin/dashboard');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::middleware('auth')->group(function () {
+    //admin dashboard route
+
+    })->name('admin.dashboard');
+    //user dashboard route
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
     //unit resources routes
     Route::resource('/{property_id}/units', UnitController::class);
     //property resources routes

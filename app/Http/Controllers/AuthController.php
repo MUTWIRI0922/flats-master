@@ -33,8 +33,9 @@ class AuthController extends Controller
                 'first_name'=> 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'phone' => 'required|integer|min:10|unique:users',
+                'phone' => 'required|numeric|unique:users',
                 'password' => 'required|string|min:8|confirmed',
+                'role' => 'Agent',
 
             ],[
                 'email.unique' => 'The email is already registered.',
@@ -45,7 +46,8 @@ class AuthController extends Controller
         $validatedData['password'] = bcrypt($validatedData['password']);
         //saving to database
         try{
-            User::Create($validatedData);
+            $user = User::create($validatedData);
+            $user->assignRole($validatedData['role']);
             return redirect()->route('/login')->with('success','Successifuly registered. Proceed to login.');
         } catch(\Exception $err)
         {
@@ -99,18 +101,20 @@ class AuthController extends Controller
                 ->with('error', 'Invalid email or password.')
                 ->withInput();
         }
+        //step 3.5 - send otp to email
+        
 
         // Step 4 — Log the user in (creates session)
         Auth::login($user);
 
-        // Step 5 — Redirect based on role
-        if ($user->role === 'admin') {
-            return redirect('/admin/dashboard')
-                ->with('success', 'Welcome back!');
+        $role = $user->getRoleNames()->first();
+
+        // Step 5 — Redirect based on role and subscription status
+        if ($role === 'Admin') {
+            return redirect('/admin/dashboard')->with('success', 'Welcome back!')->with('role', $role);
         }
 
-        if ($user->role === 'landlord' || $user->role === 'agent') {
-            // Check their own subscription
+        if ($role === 'Agent') {
             $subscription = Subscription::where('owner_id', $user->id)->first();
 
             if (!$subscription || $subscription->status !== 'active') {
@@ -119,11 +123,10 @@ class AuthController extends Controller
             }
 
             return redirect('/dashboard')
-                ->with('success', 'Login successful.');
+                ->with('success', 'Login successful.')->with('role', $role);
         }
 
-        if ($user->role === 'tenant') {
-            // Check their OWNER's subscription
+        if ($role === 'Tenant') {
             $subscription = Subscription::where('owner_id', $user->owner_id)->first();
 
             if (!$subscription || $subscription->status !== 'active') {
@@ -132,12 +135,13 @@ class AuthController extends Controller
             }
 
             return redirect('/tenant/dashboard')
-                ->with('success', 'Login successful.');
+                ->with('success', 'Login successful.')->with('role', $role);
         }
 
         // Fallback — unknown role
         return redirect('/login')->with('error', 'Unauthorized.');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();

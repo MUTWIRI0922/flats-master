@@ -8,8 +8,8 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\TenantController;
 
 Route::get('/users', [AuthController::class, 'index']);
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('api.register');
+Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 Route::resource('/{owner_id}/tenants', TenantController::class);
 Route::resource('/{property_id}/units', UnitController::class);
 Route::resource('/{owner_id}/properties', PropertyController::class);

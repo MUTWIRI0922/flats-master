@@ -47,6 +47,8 @@ class TenantController extends Controller
                 'phone.unique' => 'The phone number is already in use.',
             ]);
         $validatedData['owner_id'] = $owner_id;
+        $validatedData['role'] = 'Tenant';
+
         //generate random password for tenant
         function getRandomString($length = 10){
             return bin2hex(random_bytes($length / 2));
@@ -57,6 +59,7 @@ class TenantController extends Controller
 
         try {
             $tenant = User::create($validatedData);
+            $tenant->assignRole($validatedData['role']);
              // Send email to the tenant with their login details
             $to_email = $validatedData['email'];
             $subject = "Your Login Details";
