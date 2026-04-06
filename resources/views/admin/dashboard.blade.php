@@ -42,25 +42,25 @@
                     <div class="col-md-2">
                         <div class="card p-3 mb-4">
                             <h5>Total Users</h5>
-                            <p class="display-4">150</p>
+                            <p class="display-4">{{ $userscount }}</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="card p-3 mb-4">
                             <h5>Active Subscriptions</h5>
-                            <p class="display-4">120</p>
+                            <p class="display-4">{{ $activesubscriptionscount ?? 0 }}</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="card p-3 mb-4">
                             <h5>Expired Subscriptions</h5>
-                            <p class="display-4">30</p>
+                            <p class="display-4">{{ $expiredsubscriptionscount ?? 0 }}</p>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="card p-3 mb-4">
                             <h5>Total Revenue</h5>
-                            <p class="display-4">80</p>
+                            <p class="display-4">{{ $totalrevenue ?? 0 }}</p>
                         </div>
                     </div>
                 </div>
@@ -77,21 +77,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>John Doe</td>
-                                    <td>john.doe@example.com</td>
-                                    <td>2023-10-01</td>
-                                </tr>
-                                <tr>
-                                    <td>Jane Smith</td>
-                                    <td>jane.smith@example.com</td>
-                                    <td>2023-10-02</td>
-                                </tr>
-                                <tr>
-                                    <td>Bob Johnson</td>
-                                    <td>bob.johnson@example.com</td>
-                                    <td>2023-10-03</td>
-                                </tr>
+                                @forelse($recentsignups as $user)
+                                    <tr>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                                    </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3">No recent signups.</td>
+                                        </tr>
+                                    @endforelse
+
                             </tbody>
 
                         </table>
@@ -109,21 +106,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>John Doe</td>
-                                    <td>john.doe@example.com</td>
-                                    <td>2023-10-01</td>
-                                </tr>
-                                <tr>
-                                    <td>Jane Smith</td>
-                                    <td>jane.smith@example.com</td>
-                                    <td>2023-10-02</td>
-                                </tr>
-                                <tr>
-                                    <td>Bob Johnson</td>
-                                    <td>bob.johnson@example.com</td>
-                                    <td>2023-10-03</td>
-                                </tr>
+                                @forelse($expiredsubscriptions as $subscription)
+                                    <tr>
+                                        <td>{{ $subscription->user->name }}</td>
+                                        <td>{{ $subscription->user->email }}</td>
+                                        <td>{{ $subscription->expires_at->format('Y-m-d') }}</td>
+                                    </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3">No expired subscriptions.</td>
+                                        </tr>
+                                    @endforelse
                             </tbody>
                         </table>
                         <a href="" class="btn btn-primary w-auto">View all expired subscriptions</a>
@@ -141,144 +134,9 @@
                     </div>
                 </div>
             </section>
-            <section id="Users">
-                <h5>Users(agents)</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Signup Date</th>
-                            <th>Properties</th>
-                            <th>Tenants</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>john.doe@example.com</td>
-                            <td>2023-10-01</td>
-                            <td>5</td>
-                            <td>3</td>
-                            <td>
-                                <a href="" class="btn btn-sm btn-primary">View</a>
-                                <a href="" class="btn btn-sm btn-secondary">Edit</a>
-                                <a href="" class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                    </tbody>
 
-                </table>
-            </section>
-            <section id="active-subscriptions">
-                <h5>Active Subscriptions</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Start Date</th>
-                            <th>Expiry Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>john.doe@example.com</td>
-                            <td>2023-10-01</td>
-                            <td>2024-10-01</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                        </tr>
-                    </tbody>
-                </table>
 
-            </section>
-            <section id="expired-subscriptions">
-                <h5>Expired Subscriptions</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Start Date</th>
-                            <th>Expiry Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>john.doe@example.com</td>
-                            <td>2023-10-01</td>
-                            <td>2024-10-01</td>
-                            <td><span class="badge bg-danger">Expired</span></td>
-                        </tr>
-                    </tbody>
-                </table>
 
-            </section>
-            <section id="Properties">
-                <h5>Properties</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Agent</th>
-                            <th>Location</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Cozy Apartment</td>
-                            <td>John Doe</td>
-                            <td>Nairobi, Kenya</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                        </tr>
-                    </tbody>
-            </section>
-            <section id="Roles">
-                <h5>Roles</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Role</th>
-                            <th>Permissions</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Admin</td>
-                            <td>All permissions</td>
-                            <td>
-                                <a href="" class="btn btn-sm btn-primary">View</a>
-                                <a href="" class="btn btn-sm btn-secondary">Edit</a>
-                                <a href="" class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        </tr>   
-                        <tr>
-                            <td>Agent</td>
-                            <td>Manage properties, view tenants</td>
-                            <td>
-                                <a href="" class="btn btn-sm btn-primary">View</a>
-                                <a href="" class="btn btn-sm btn-secondary">Edit</a>
-                                <a href="" class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Tenant</td>
-                            <td>View properties, manage own profile</td>
-                            <td>
-                                <a href="" class="btn btn-sm btn-primary">View</a>
-                                <a href="" class="btn btn-sm btn-secondary">Edit</a>
-                                <a href="" class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                    </tbody>
-            </section>
             <section id="profile">
                 <h5>Profile</h5>
                 <div class="card p-3 mb-4">
@@ -288,45 +146,8 @@
                     <a href="" class="btn btn-primary">Edit Profile</a>
                 </div>
             </section>
-            <section id="payments">
-                <h5>Payments</h5>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Transaction ID</th>
-                            <th>Receipt</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>john.doe@example.com</td>
-                            <td>$500.00</td>
-                            <td>2023-10-01</td>
-                            <td>TXN-001</td>
-                            <td><a href="" class="btn btn-sm btn-primary">View Receipt</a></td>
-                        </tr>
-                    </tbody>
-                </table>
 
-            </section>
-            <section id="settings">
-                <h5>Settings</h5>
-                <div class="card p-3 mb-4">
-                    <p>Notification Preferences</p>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="emailNotifications" checked>
-                        <label class="form-check-label" for="emailNotifications">
-                            Email Notifications 
-                        </label>
-                    </div>
-                </div>
 
-            </section>
         </main>
     </div>
 

@@ -9,12 +9,6 @@
                     overflow: hidden;
                 }
 
-
-                .dashboard-main h1,
-                .dashboard-main p {
-                    margin: 0 0 12px;
-                }
-
                 .col-md-4,
                 .col-md-8 {
                     padding: 0;
