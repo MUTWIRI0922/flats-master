@@ -27,6 +27,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::middleware('auth')->group(function () {
     //admin dashboard route
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/users', [AuthController::class, 'index'])->name('admin.users');
+    Route::get('/admin/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.view');
     //user dashboard route
     Route::get('/dashboard', function () {
         return view('dashboard');

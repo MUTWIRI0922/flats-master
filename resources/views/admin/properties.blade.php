@@ -1,24 +1,31 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('content')
+    <div class="dashboard-wrapper">
+        @include('admin.sidebar')
 
-    <section id="Properties">
-        <h5>Properties</h5>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Agent</th>
-                    <th>Location</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Cozy Apartment</td>
-                    <td>John Doe</td>
-                    <td>Nairobi, Kenya</td>
-                    <td><span class="badge bg-success">Active</span></td>
-                </tr>
-            </tbody>
-    </section> 
+        <main class="dashboard-main">
+            <section id="Properties">
+                <h5>Properties</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Agent</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cozy Apartment</td>
+                            <td>John Doe</td>
+                            <td>Nairobi, Kenya</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section> 
+        </main>
+    </div>
+
 @endsection

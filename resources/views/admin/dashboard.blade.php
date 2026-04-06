@@ -1,36 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('title', 'Dashboard')
 @section('content')
-<style>
-        .dashboard-wrapper {
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-
-        .dashboard-main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            background: #fff;
-        }
-
-        .dashboard-main h1,
-        .dashboard-main p {
-            margin: 0 0 12px;
-        }
-
-        .col-md-4,
-        .col-md-8 {
-            padding: 0;
-        }
-
-        .reports:not(.btn) {
-            width: 90%;
-            border-collapse: collapse;
-        }
-</style>
 
     <div class="dashboard-wrapper">
         @include('admin.sidebar')
@@ -134,19 +104,6 @@
                     </div>
                 </div>
             </section>
-
-
-
-            <section id="profile">
-                <h5>Profile</h5>
-                <div class="card p-3 mb-4">
-                    <h5>John Doe</h5>
-                    <p>Email: john.doe@example.com</p>  
-                    <p>Role: Admin</p>
-                    <a href="" class="btn btn-primary">Edit Profile</a>
-                </div>
-            </section>
-
 
         </main>
     </div>

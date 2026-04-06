@@ -44,14 +44,9 @@
             <nav>
                 <ul class="list-group">
                     <li class="list-group-item"><img src="" alt="">logo</li>
-                    <li class="list-group-item"><i class="bi bi-speedometer2"></i><a href=""> Dashboard</a></li>
-                    <li class="list-group-item"><i class="bi bi-people"></i><a href=""> Users</a></li>
-                    <li class="list-group-item dropdown-toggle"><i class="bi bi-list"></i> Subscriptions
-                        <ul class="dropdown-submenu">
-                            <li class="list-group-item"><a href="">Active</a></li>
-                            <li class="list-group-item"><a href="">Expired</a></li>
-                        </ul>
-                    </li>
+                    <li class="list-group-item"><i class="bi bi-speedometer2"></i><a href="{{ route('admin.dashboard') }}"> Dashboard</a></li>
+                    <li class="list-group-item"><i class="bi bi-people"></i><a href="{{ route('admin.users') }}"> Users</a></li>
+                    <li class="list-group-item"><i class="bi bi-list"></i><a href="{{ route('subscriptions.view') }}"> Subscriptions</a></li>
                     <li class="list-group-item"><i class="bi bi-house"></i><a href=""> Properties</a></li>
                     <li class="list-group-item dropdown-toggle"><i class="bi bi-person"></i> Profile
                         <ul class="dropdown-submenu">
@@ -79,3 +74,25 @@
                 </ul>
             </nav>
         </aside>
+    <script>
+        document.querySelectorAll('.dropdown-toggle').forEach(item => {
+            item.addEventListener('click', function() {
+                const submenu = this.querySelector('.dropdown-submenu');
+                if (!submenu) return;
+
+                if (this.classList.contains('open')) {
+                    // Close this submenu
+                    submenu.classList.remove('open');
+                    this.classList.remove('open');
+                } else {
+                    // Close all others first
+                    document.querySelectorAll('.dropdown-submenu').forEach(sub => sub.classList.remove('open'));
+                    document.querySelectorAll('.dropdown-toggle').forEach(tog => tog.classList.remove('open'));
+
+                    // Open this one
+                    submenu.classList.add('open');
+                    this.classList.add('open');
+                }
+            });
+        });
+    </script>

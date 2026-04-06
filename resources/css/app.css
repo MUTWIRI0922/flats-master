@@ -1,5 +1,8 @@
 @import 'bootstrap';
+@import 'tailwindcss';
 @import 'bootstrap-icons';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
 
 
         .dashboard-wrapper {

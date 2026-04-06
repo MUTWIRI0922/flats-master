@@ -8,6 +8,12 @@ use App\Models\Suscriptionrenewals;
 
 class SubscriptionController extends Controller
 {
+    //view all subscriptions
+    public function index()
+    {
+        $subscriptions = Subscription::with('owner')->paginate(10);
+        return view('admin.subscriptions', compact('subscriptions'));
+    }
     //create subscription
     public function create(Request $request, $owner_id)
     {
@@ -62,7 +68,7 @@ class SubscriptionController extends Controller
         }
 
     }
-
+    
 
 
 }

@@ -19,10 +19,11 @@ class AuthController extends Controller
     // }
     public function index()
     {
-        $users = User::all();
-        return[
-            'users' => $users
-        ];
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'Agent');
+        })->paginate(10);
+
+        return view('admin.users-list', compact('users'));
     }
     //registration of new landlord/agent
     public function register(Request $request)
@@ -88,7 +89,7 @@ class AuthController extends Controller
     {
         // Step 1 — Validate inputs
         $credentials = $request->validate([
-            'email'    => 'required|string|email',
+            'email'    => 'required|email',
             'password' => 'required|string',
         ]);
 
