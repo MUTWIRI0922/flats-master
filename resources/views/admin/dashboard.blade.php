@@ -33,6 +33,12 @@
                             <p class="display-4">{{ $totalrevenue ?? 0 }}</p>
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <div class="card p-3 mb-4">
+                            <h5>Listed Properties</h5>
+                            <p class="display-4">{{ $listedpropertiescount ?? 0 }}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="reports">
                     <h5>Recent User Signups</h5>
@@ -49,7 +55,7 @@
                             <tbody>
                                 @forelse($recentsignups as $user)
                                     <tr>
-                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->created_at->format('Y-m-d') }}</td>
                                     </tr>

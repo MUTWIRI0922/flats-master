@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Subscription;
 use App\Models\Payment;
+use App\Models\Property;
 
 
 class DashboardController extends Controller
@@ -24,6 +25,7 @@ class DashboardController extends Controller
         })->orderBy('created_at', 'desc')->limit(5)->get();
         $activesubscriptions = Subscription::where('status', 'active')->limit(5)->get();
         $expiredsubscriptions = Subscription::where('status', 'expired')->limit(5)->get();
+        $listedproperties = Property::orderBy('created_at', 'desc')->limit(5)->get();
         //chart data
         $subscriptionPerMonth = Subscription::selectRaw('MONTH(start_date) as month, COUNT(*) as count')
             ->groupBy('month')
@@ -58,6 +60,7 @@ class DashboardController extends Controller
             'recentsignups' => $recentsignups,
             'activesubscriptions' => $activesubscriptions,
             'expiredsubscriptions' => $expiredsubscriptions,
+            'listedproperties' => $listedproperties,
         ]);
     }
 }

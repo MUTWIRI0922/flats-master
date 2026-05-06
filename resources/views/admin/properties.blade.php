@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 @section('content')
     <div class="dashboard-wrapper">
@@ -10,18 +11,29 @@
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th>Agent</th>
+                            <th>Owner</th>
                             <th>Location</th>
+                            <th>No. of units</th>
                             <th>Status</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse($properties as $property)
                         <tr>
-                            <td>Cozy Apartment</td>
-                            <td>John Doe</td>
-                            <td>Nairobi, Kenya</td>
-                            <td><span class="badge bg-success">Active</span></td>
+                            <td>{{$property->name}}</td>
+                            <td>{{$property->owner->name}}</td>
+                            <td>{{$property->location}}</td>
+                            <td>{{$property->unit_count}}</td>
+                            <td>{{$property->status}}</td>
+                            
+                            
                         </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">No properties found.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section> 

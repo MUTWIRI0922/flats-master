@@ -30,11 +30,11 @@
             body {
                 font-family: 'Roboto', sans-serif;
                 background: var(--bg-dark);
-                color: var(--text-main);
+                
             }
             .card{
                 background: var(--card-bg);
-                color: var(--text-main);
+                
             }
             :root {
                 --bg-dark: #0d1d4eff;
@@ -82,6 +82,7 @@
                 flex: 1;
                 overflow-y: auto;
                 padding: 20px;
+                margin-top: 60px;
                 background: #fff;
             }
 
@@ -95,7 +96,7 @@
                 padding: 0;
             }
             a {
-                color: var(--text-main);
+                
                 text-decoration: none;
             }
             .reports:not(.btn) {

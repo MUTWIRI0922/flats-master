@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PropertyController extends Controller
 {
@@ -134,5 +136,13 @@ class PropertyController extends Controller
         return response()->json([
             'message' => 'Property deleted successfully'
         ]);
+    }
+    //list of all properties for admin
+    public function allproperties()
+    {
+        $properties = Property::with('units', function ($query) {
+            $query->select('property_id', DB::raw('COUNT(*) as unit_count'));
+        })->with('owner')->orderBy('created_at', 'desc')->get();
+        return view('admin.properties', compact('properties'));
     }
 }
