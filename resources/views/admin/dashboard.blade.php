@@ -114,27 +114,6 @@
         </main>
     </div>
 
-    <script>
-        document.querySelectorAll('.dropdown-toggle').forEach(item => {
-            item.addEventListener('click', function() {
-                const submenu = this.querySelector('.dropdown-submenu');
-                if (!submenu) return;
 
-                if (this.classList.contains('open')) {
-                    // Close this submenu
-                    submenu.classList.remove('open');
-                    this.classList.remove('open');
-                } else {
-                    // Close all others first
-                    document.querySelectorAll('.dropdown-submenu').forEach(sub => sub.classList.remove('open'));
-                    document.querySelectorAll('.dropdown-toggle').forEach(tog => tog.classList.remove('open'));
-
-                    // Open this one
-                    submenu.classList.add('open');
-                    this.classList.add('open');
-                }
-            });
-        });
-    </script>
 
 @endsection

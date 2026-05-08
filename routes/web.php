@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users', [AuthController::class, 'index'])->name('admin.users');
     Route::get('/admin/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.view');
     Route::get('/admin/properties', [PropertyController::class, 'allproperties'])->name('properties.view');
+    Route::get('/admin/profileview', [AuthController::class, 'adminprofileview'])->name('admin.profileview');
+    Route::get('/admin/profileedit', [AuthController::class, 'adminprofileedit'])->name('admin.profileedit');
+    Route::put('/admin/{id}/profileupdate', [AuthController::class, 'update'])->name('admin.profileupdate');
     //user dashboard route
     Route::get('/dashboard', function () {
         return view('dashboard');

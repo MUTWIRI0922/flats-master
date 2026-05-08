@@ -212,4 +212,15 @@ class AuthController extends Controller
             return back()->with('error', 'We could not change your password. Please try again.')->withInput();
         }
     }
+    public function adminprofileview()
+    {
+        $user = Auth::user();
+        return view('admin.view-profile', compact('user'));
+    }
+    public function adminprofileedit()
+    {
+        $user = Auth::user();
+        return view('admin.edit-profile', compact('user'));
+    }
+
 }

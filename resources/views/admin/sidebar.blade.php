@@ -146,8 +146,8 @@
                     <li class="list-group-item"><i class="bi bi-house"></i><a href="{{ route('properties.view') }}"> Properties</a></li>
                     <li class="list-group-item dropdown-toggle"><i class="bi bi-person"></i> Profile
                         <ul class="dropdown-submenu">
-                            <li class="list-group-item"><a href="">View Profile</a></li>
-                            <li class="list-group-item"><a href="">Edit Profile</a></li>
+                            <li class="list-group-item"><a href="{{ route('admin.profileview') }}">View Profile</a></li>
+                            <li class="list-group-item"><a href="{{ route('admin.profileedit') }}">Edit Profile</a></li>
                         </ul>
                     </li>
                     <li class="list-group-item dropdown-toggle"><i class="bi bi-shield"></i> Authorization
