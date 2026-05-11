@@ -152,8 +152,8 @@
                     </li>
                     <li class="list-group-item dropdown-toggle"><i class="bi bi-shield"></i> Authorization
                         <ul class="dropdown-submenu">
-                            <li class="list-group-item"><a href="">Permissions</a></li>
-                            <li class="list-group-item"><a href="">Roles</a></li>
+                            <li class="list-group-item"><a href="{{ route('admin.viewpermissions') }}">Permissions</a></li>
+                            <li class="list-group-item"><a href="{{ route('admin.viewroles') }}">Roles</a></li>
                         </ul>
                     </li>
                     <li class="list-group-item dropdown-toggle"><i class="bi bi-bar-chart"></i><a href=""> Reports</a>
