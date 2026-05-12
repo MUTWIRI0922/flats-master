@@ -44,6 +44,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/admin/auth/storepermission', [SpatieController::class, 'storepermission'])->name('admin.storepermission');
     Route::post('/admin/auth/storerole', [SpatieController::class, 'storerole'])->name('admin.storerole');
+    Route::get('/admin/auth/role/{id}', [SpatieController::class, 'viewrole'])->name('admin.viewrole');
+    Route::get('/admin/auth/role/{id}/edit', [SpatieController::class, 'editrole'])->name('admin.editrole');
+    Route::post('/admin/auth/role/{id}/update', [SpatieController::class, 'updaterole'])->name('admin.updaterole');
+    Route::delete('/admin/auth/role/{id}/delete', [SpatieController::class, 'destroyrole'])->name('admin.deleterole');
+
     //user dashboard route
     Route::get('/dashboard', function () {
         return view('dashboard');

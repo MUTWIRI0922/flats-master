@@ -31,9 +31,9 @@
                             <tr>
                                 <td>{{ $role->name }}</td>
                                 <td>
-                                    <a href="" class="btn btn-sm btn-primary">Permissions</a>
-                                    <a href="" class="btn btn-sm btn-warning">Edit</a>
-                                    <form action="" method="POST" style="display: inline;">
+                                    <a href="{{ route('admin.viewrole', $role->id) }}" class="btn btn-sm btn-primary">View</a>
+                                    <a href="{{ route('admin.editrole', $role->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <form action="{{ route('admin.deleterole', $role->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this role?')">Delete</button>

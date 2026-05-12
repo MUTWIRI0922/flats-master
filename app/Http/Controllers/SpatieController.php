@@ -45,7 +45,7 @@ class SpatieController extends Controller
     public function storerole(Request $request)
     {
        
-        $role = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|unique:roles,name',
             'permissions' => 'required|array',
 
@@ -53,12 +53,55 @@ class SpatieController extends Controller
 
         try
         {
-            $role = Role::create($role);
-            $role->syncPermissions($role->permissions);
+            $role = Role::create(['name' => $validated['name']]);
+            $role->syncPermissions($validated['permissions']);
             return redirect()->route('admin.viewroles')->with('success', 'Role created successfully.');
         } catch (\Exception $err)
         {
             return back()->with('error', 'We could not create the role, please try again.')->withInput();
         }
     }
+    public function viewrole($id)
+    {   
+        $role = Role::findOrFail($id);
+        $permissions = $role->getPermissionNames();
+        return view('admin.authorization.viewrole', compact('role', 'permissions'));
+    }
+    public function editrole($id)
+    {
+        $role = Role::findOrFail($id);
+        $permissions = Permission::all();
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
+        return view('admin.authorization.editrole', compact('role', 'permissions', 'rolePermissions'));
+    }
+    public function updaterole(Request $request, $id)
+    {
+        $role = Role::findOrFail($id);
+        $validated = $request->validate([
+            'name' => 'required|unique:roles,name,' . $id,
+            'permissions' => 'required|array',
+        ],[
+            'name.required' => 'The role name is required.',
+            'name.unique' => 'The role name must be unique.',
+            'permissions.required' => 'Please select at least one permission.',
+            'permissions.array' => 'Invalid permissions format.',
+        ]);
+
+        try{
+            $role->update(['name' => $validated['name']]);
+            $role->syncPermissions($validated['permissions']);
+            return redirect()->route('admin.viewroles')->with('success', 'Role updated successfully.');
+        } catch (\Exception $err)
+        {
+            return back()->with('error', 'We could not update the role, please try again.')->withInput();
+        }
+
+    }
+    public function destroyrole($id)
+    {
+        $role = Role::findOrFail($id);
+        $role->delete();
+        return redirect()->route('admin.viewroles')->with('success', 'Role deleted successfully.');
+    }
+
 }
