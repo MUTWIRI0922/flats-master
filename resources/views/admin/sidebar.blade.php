@@ -156,18 +156,18 @@
                             <li class="list-group-item"><a href="{{ route('admin.viewroles') }}">Roles</a></li>
                         </ul>
                     </li>
-                    <li class="list-group-item dropdown-toggle"><i class="bi bi-bar-chart"></i><a href=""> Reports</a>
+                    <li class="list-group-item dropdown-toggle"><i class="bi bi-bar-chart"></i> Reports
                         <ul class="dropdown-submenu">
-                            <li class="list-group-item"><a href="">users</a></li>
-                            <li class="list-group-item"><a href="">subscriptions</a></li>
+                            <li class="list-group-item"><a href="{{route('admin.reports.users')}}">users</a></li>
+                            <li class="list-group-item"><a href="{{route('admin.reports.subscriptions')}}">subscriptions</a></li>
                             <li class="list-group-item"><a href="">properties</a></li>
 
                         </ul>
                     </li>
-                    <li class="list-group-item"><i class="bi bi-credit-card"></i> Payments</li>
-                    <li class="list-group-item"><i class="bi bi-gear"></i>  Settings</li>
-                    <li class="list-group-item"><i class="bi bi-key"></i> Change Password</li>
-                    <li class="list-group-item"><i class="bi bi-box-arrow-right"></i> Logout</li>
+                    <li class="list-group-item"><a href="{{ route('admin.payments') }}"><i class="bi bi-credit-card"></i> Payments</a></li>
+                    <li class="list-group-item"><a href="{{ route('admin.settings') }}"><i class="bi bi-gear"></i>  Settings</a></li>
+                    <li class="list-group-item"><a href="{{ route('admin.passwordreset') }}"><i class="bi bi-key"></i> Change Password</a></li>
+                    <li class="list-group-item"><a href="{{ route('admin.logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                 </ul>
             </nav>
         </aside>

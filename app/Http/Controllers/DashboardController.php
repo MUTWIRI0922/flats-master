@@ -63,4 +63,11 @@ class DashboardController extends Controller
             'listedproperties' => $listedproperties,
         ]);
     }
+    //functions for reports
+    public function usersreport(){
+        return view('admin.reports.usersreports');
+    }
+    public function subscriptionsreport(){
+        return view('admin.reports.subscriptionsreports');
+    }
 }

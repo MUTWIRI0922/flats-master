@@ -8,6 +8,7 @@ use App\Http\Controllers\UnitImportController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\LeaseController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SpatieController;
 
@@ -34,6 +35,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/profileview', [AuthController::class, 'adminprofileview'])->name('admin.profileview');
     Route::get('/admin/profileedit', [AuthController::class, 'adminprofileedit'])->name('admin.profileedit');
     Route::put('/admin/{id}/profileupdate', [AuthController::class, 'update'])->name('admin.profileupdate');
+    Route::get('/admin/settings', function () {
+        return view('admin.settings');
+    })->name('admin.settings');
+    Route::get('/admin/payments', [PaymentController::class, 'index'])->name('admin.payments');
+    Route::get('/admin/passwordreset', function () {
+        return view('admin.passwordreset');
+    })->name('admin.passwordreset');
+    Route::post('/admin/passwordreset', [AuthController::class, 'resetPassword'])->name('admin.password.reset');
+    Route::get('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
     //admin permissions route
     Route::get('/admin/auth/viewpermissions', [SpatieController::class, 'viewpermissions'])->name('admin.viewpermissions');
     Route::get('/admin/auth/roles', [SpatieController::class, 'viewroles'])->name('admin.viewroles');
@@ -48,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/auth/role/{id}/edit', [SpatieController::class, 'editrole'])->name('admin.editrole');
     Route::post('/admin/auth/role/{id}/update', [SpatieController::class, 'updaterole'])->name('admin.updaterole');
     Route::delete('/admin/auth/role/{id}/delete', [SpatieController::class, 'destroyrole'])->name('admin.deleterole');
+    Route::get('/admin/reports/usersreports',[DashboardController::class, 'usersreport'])->name('admin.reports.users');
+    Route::get('/admin/reports/subscriptionsreports',[DashboardController::class, 'subscriptionsreport'])->name('admin.reports.subscriptions');
 
     //user dashboard route
     Route::get('/dashboard', function () {

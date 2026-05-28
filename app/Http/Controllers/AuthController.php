@@ -58,7 +58,8 @@ class AuthController extends Controller
     }
 
     //update of landlord/agent details
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $user = User::find($id);
         if(!$user){
             abort(404);
@@ -146,7 +147,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route('/')->with('success', 'Logged out successfully.');
+        return redirect()->route('login')->with('success', 'Logged out successfully.');
     }
     public function sendOTP(Request $request)
     {
