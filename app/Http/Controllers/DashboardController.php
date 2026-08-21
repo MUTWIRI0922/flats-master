@@ -21,7 +21,7 @@ class DashboardController extends Controller
 
         //full data
         $recentsignups = User::whereHas('roles', function ($query) {
-            $query->where('name', 'agent');
+            $query->where('name', 'Agent');
         })->orderBy('created_at', 'desc')->limit(5)->get();
         $activesubscriptions = Subscription::where('status', 'active')->limit(5)->get();
         $expiredsubscriptions = Subscription::where('status', 'expired')->limit(5)->get();
@@ -69,5 +69,8 @@ class DashboardController extends Controller
     }
     public function subscriptionsreport(){
         return view('admin.reports.subscriptionsreports');
+    }
+    public function propertiesreport(){
+        return view('admin.reports.properties');
     }
 }

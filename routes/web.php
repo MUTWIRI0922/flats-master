@@ -61,11 +61,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/auth/role/{id}/delete', [SpatieController::class, 'destroyrole'])->name('admin.deleterole');
     Route::get('/admin/reports/usersreports',[DashboardController::class, 'usersreport'])->name('admin.reports.users');
     Route::get('/admin/reports/subscriptionsreports',[DashboardController::class, 'subscriptionsreport'])->name('admin.reports.subscriptions');
+    Route::get('/admin/reports/propertiesreports',[DashboardController::class, 'propertiesreport'])->name('admin.reports.properties');
+
+
 
     //user dashboard route
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/user/dashboard', function () {
+        return view('user.dashboard');
+    })->name('userdashboard');
     //unit resources routes
     Route::resource('/{property_id}/units', UnitController::class);
     //property resources routes

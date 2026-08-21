@@ -21,6 +21,7 @@
             </div>
             <br>
             <div class="mostactiveusers">
+                <h5>Most Active Users</h5>
                 <table class="table table-responsive table-striped">
                     <thead>
                         <tr>
@@ -39,6 +40,7 @@
             </div>
 
             <div class="mostinactiveusers">
+                <h5>Most Inactive Users</h5>
                 <table class="table table-responsive table-striped">
                     <thead>
                         <tr>

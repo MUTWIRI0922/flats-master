@@ -160,7 +160,7 @@
                         <ul class="dropdown-submenu">
                             <li class="list-group-item"><a href="{{route('admin.reports.users')}}">users</a></li>
                             <li class="list-group-item"><a href="{{route('admin.reports.subscriptions')}}">subscriptions</a></li>
-                            <li class="list-group-item"><a href="">properties</a></li>
+                            <li class="list-group-item"><a href="{{route('admin.reports.properties')}}">properties</a></li>
 
                         </ul>
                     </li>

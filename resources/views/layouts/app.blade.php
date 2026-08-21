@@ -4,10 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description"
-        content="Flat Masters is a borderless digital powerhouse delivering scalable web & software development, graphic design, digital marketing, and online cyber services for modern businesses and individuals.">
-        <meta name="keywords"
-        content="web development, software development, graphic designers, poster designs, brand identity, digital marketing, KRA services, Business registration, ICT support, scalable solutions, borderless delivery, high-performance code">
-        <meta name="author" content="Flat Masters">
+        content="Flat Masters is a borderless digital powerhouse delivering scalable web & software development, graphic design, digital marketing, and online cyber services for modern businesses and individuals.">        <meta name="author" content="Flat Masters">
         <title>@yield('title', config('app.name', 'Laravel')) </title>
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
         
@@ -41,7 +38,7 @@
                 --card-bg: rgba(255,255,255,0.06);
                 --blue: #0000C2;
                 --orange: #F97316;
-                --text-main: #eaeaea;
+                --text-main: #000000;
                 --text-muted: #a1a1a1;
                 --light-dark: rgb(67, 79, 110);
             }

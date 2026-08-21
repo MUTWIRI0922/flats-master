@@ -22,7 +22,7 @@ class AuthController extends Controller
         $users = User::whereHas('roles', function ($query) {
             $query->where('name', 'Agent');
         })->paginate(10);
-
+        
         return view('admin.users-list', compact('users'));
     }
     //registration of new landlord/agent
@@ -36,7 +36,6 @@ class AuthController extends Controller
                 'email' => 'required|string|email|max:255|unique:users',
                 'phone' => 'required|numeric|unique:users',
                 'password' => 'required|string|min:8|confirmed',
-                'role' => 'Agent',
 
             ],[
                 'email.unique' => 'The email is already registered.',
@@ -48,7 +47,7 @@ class AuthController extends Controller
         //saving to database
         try{
             $user = User::create($validatedData);
-            $user->assignRole($validatedData['role']);
+            $user->assignRole('Agent');
             return redirect()->route('/login')->with('success','Successifuly registered. Proceed to login.');
         } catch(\Exception $err)
         {
@@ -117,14 +116,14 @@ class AuthController extends Controller
         }
 
         if ($role === 'Agent') {
-            $subscription = Subscription::where('owner_id', $user->id)->first();
+            // $subscription = Subscription::where('owner_id', $user->id)->first();
 
-            if (!$subscription || $subscription->status !== 'active') {
-                return redirect('/subscription')
-                    ->with('error', 'Your subscription is not active. Please renew to continue.');
-            }
+            // if (!$subscription || $subscription->status !== 'active') {
+            //     return redirect('/subscription')
+            //         ->with('error', 'Your subscription is not active. Please renew to continue.');
+            // }
 
-            return redirect('/dashboard')
+            return redirect()->route('userdashboard')
                 ->with('success', 'Login successful.')->with('role', $role);
         }
 
