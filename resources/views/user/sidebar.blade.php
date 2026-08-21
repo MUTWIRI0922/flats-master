@@ -101,6 +101,8 @@
                     <li class="list-group-item"><a href=""><i class="bi bi-envelope"></i> Messages</a></li>
                     <li class="list-group-item"><a href=""><i class="bi bi-wrench"></i> Maintenance</a></li>
                     <li class="list-group-item"><a href=""><i class="bi bi-gear"></i> Settings</a></li>
+                    <li class="list-group-item"><a href=""><i class="bi bi-person"></i> Profile</a></li>
+                    <li class="list-group-item"><a href=""><i class="bi bi-question-circle"></i> Support</a></li>
                 </ul>
             </nav>
         </aside>
