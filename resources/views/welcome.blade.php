@@ -23,7 +23,7 @@
 
             body {
                 font-family: 'Inter', sans-serif;
-                background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
+                background: #3700fd;
                 min-height: 100vh;
                 display: flex;
                 align-items: center;
@@ -32,40 +32,35 @@
                 overflow: hidden;
             }
 
+            body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=2400&q=85') center / cover no-repeat;
+                opacity: 0.15;
+                z-index: 0;
+                pointer-events: none;
+            }
+
             /* Animated background elements */
             .bg-element {
                 position: absolute;
+                z-index: 1;
                 border-radius: 50%;
-                opacity: 0.1;
+                opacity: 0.8;
                 animation: float 6s ease-in-out infinite;
             }
 
             .bg-element-1 {
                 width: 400px;
-                height: 400px;
-                background: radial-gradient(circle, #00d4ff, #0099ff);
+                height: 900px;
+                background: #0066FF;
                 top: -100px;
-                left: -100px;
+                left: -150px;
+                padding-right: 10;
                 animation-delay: 0s;
             }
 
-            .bg-element-2 {
-                width: 300px;
-                height: 300px;
-                background: radial-gradient(circle, #0099ff, #0066cc);
-                bottom: -50px;
-                right: -50px;
-                animation-delay: 2s;
-            }
-
-            .bg-element-3 {
-                width: 250px;
-                height: 250px;
-                background: radial-gradient(circle, #00d4ff, #0099ff);
-                top: 50%;
-                right: 10%;
-                animation-delay: 4s;
-            }
 
             @keyframes float {
                 0%, 100% {
@@ -154,18 +149,13 @@
             .title {
                 font-size: 3.5rem;
                 font-weight: 700;
-                color: #ffffff;
                 margin-bottom: 20px;
                 letter-spacing: -1px;
-                background: linear-gradient(135deg, #ffffff 0%, #00d4ff 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
                 background-clip: text;
             }
 
             .subtitle {
                 font-size: 1.25rem;
-                color: #a0aec0;
                 margin-bottom: 50px;
                 line-height: 1.6;
                 font-weight: 300;
@@ -173,7 +163,6 @@
 
             .description {
                 font-size: 1rem;
-                color: #cbd5e0;
                 margin-bottom: 40px;
                 line-height: 1.8;
             }
@@ -218,26 +207,15 @@
                 overflow: hidden;
             }
 
-            .btn-primary {
-                background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
-                color: #0a0e27;
-                box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
-            }
 
             .btn-primary:hover {
                 transform: translateY(-3px);
                 box-shadow: 0 12px 32px rgba(0, 212, 255, 0.4);
             }
 
-            .btn-secondary {
-                background: transparent;
-                color: #00d4ff;
-                border: 2px solid #00d4ff;
-                box-shadow: 0 8px 24px rgba(0, 212, 255, 0.1);
-            }
 
             .btn-secondary:hover {
-                background: #00d4ff;
+                background: #1a6574;
                 color: #0a0e27;
                 transform: translateY(-3px);
                 box-shadow: 0 12px 32px rgba(0, 212, 255, 0.3);
@@ -312,8 +290,7 @@
     <body>
         <!-- Animated Background Elements -->
         <div class="bg-element bg-element-1"></div>
-        <div class="bg-element bg-element-2"></div>
-        <div class="bg-element bg-element-3"></div>
+
 
         <!-- Main Content -->
         <div class="container">
@@ -327,21 +304,17 @@
             </div> -->
 
             <!-- Welcome Section -->
-            <h1 class="title">Welcome to Flat Master</h1>
-            <p class="subtitle">Professional Property Management System</p>
+            <h1 class="title text-white">Welcome to Flat Master</h1>
+            <p class="subtitle text-primary">Professional Property Management System</p>
             <p class="description">Streamline your property management workflow with our comprehensive platform designed for modern landlords and property managers.</p>
 
-            <p class="loading-text">⚡ GET STARTED NOW⚡</p>
 
             <!-- CTA Buttons -->
             <div class="button-group">
-                @auth
-                    <a href="{{ route('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
-                @endauth
-                @guest
+
                     <a href="{{ route('login') }}" class="btn btn-primary">Sign In</a>
                     <a href="{{ route('register') }}" class="btn btn-secondary">Create Account</a>
-                @endguest
+
             </div>
 
             <!-- Features Grid -->

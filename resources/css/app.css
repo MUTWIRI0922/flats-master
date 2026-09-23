@@ -3,33 +3,3 @@
 @import 'bootstrap-icons';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
-
-
-        .dashboard-wrapper {
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-
-        .dashboard-main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            background: #fff;
-        }
-
-        .dashboard-main h1,
-        .dashboard-main p {
-            margin: 0 0 12px;
-        }
-
-        .col-md-4,
-        .col-md-8 {
-            padding: 0;
-        }
-
-        .reports:not(.btn) {
-            width: 90%;
-            border-collapse: collapse;
-        }

@@ -6,7 +6,7 @@
         <meta name="description"
         content="Flat Masters is a borderless digital powerhouse delivering scalable web & software development, graphic design, digital marketing, and online cyber services for modern businesses and individuals.">        <meta name="author" content="Flat Masters">
         <title>@yield('title', config('app.name', 'Laravel')) </title>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
         @vite(['resources/sass/app.scss','resources/js/app.js']) 
         <style>
             body {
-                font-family: 'Roboto', sans-serif;
+                font-family: 'Inter', sans-serif;
                 background: var(--bg-dark);
                 color: var(--text-main);
             }
@@ -87,9 +87,9 @@
         <button onclick="topFunction()" id="backToTopBtn" title="Go to top" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;" class="btn btn-primary w-10 h-10  shadow">
             <i class="bi bi-arrow-up"></i>
         </button>
-        <button id="themeToggle" class="theme-toggle" title="Toggle Theme">
+        <!-- <button id="themeToggle" class="theme-toggle" title="Toggle Theme">
             <i class="bi bi-moon-fill" id="themeIcon"></i>
-        </button>
+        </button> -->
 
         <script>
             // Hide the loader overlay when the page is fully loaded
@@ -105,7 +105,12 @@
                     backToTopBtn.style.display = "none";
                 }
             };
-
+            // fill pagetitle with the current page title
+            document.addEventListener("DOMContentLoaded", function() {
+                const pageTitle = document.querySelector(".page-title");
+                pageTitle.textContent = document.title;
+                
+            });
             function topFunction() {
                 document.body.scrollTop = 0; // For Safari
                 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera

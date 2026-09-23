@@ -9,7 +9,7 @@
         content="web development, software development, graphic designers, poster designs, brand identity, digital marketing, KRA services, Business registration, ICT support, scalable solutions, borderless delivery, high-performance code">
         <meta name="author" content="Flat Masters">
         <title>@yield('title', config('app.name', 'Laravel')) </title>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -28,7 +28,7 @@
         @vite(['resources/sass/app.scss','resources/js/app.js'])
         <style>
             body {
-                font-family: 'Roboto', sans-serif;
+                font-family: 'Inter', sans-serif;
                 background: var(--bg-dark);
                 
             }
