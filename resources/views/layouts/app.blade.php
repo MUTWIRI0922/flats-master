@@ -67,7 +67,69 @@
             }
             .theme-toggle:hover {
                 background: var(--orange);
+                
             }
+        .main-page {
+            display: flex;
+            min-height: 100vh;
+            background: #f7f8fa;
+        }
+
+
+        .main-content {
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .page-title {
+            font-size: 1.125rem;
+            margin: 0;
+            color: #111827;
+            font-weight: 700;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e5e7eb;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .content {
+            padding: 24px;
+            flex: 1;
+            background: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .dashboard { flex-direction: column; }
+            .main-content { min-height: auto; }
+            .topbar { padding: 0 12px; }
+        }
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         

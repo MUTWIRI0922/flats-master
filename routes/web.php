@@ -72,6 +72,9 @@ Route::middleware('auth')->group(function () {
     //unit resources routes
     Route::resource('/{property_id}/units', UnitController::class);
     //property resources routes
+    Route::get('/properties', function () {
+        return view('user.properties');
+    })->name('properties');
     Route::resource('/{owner_id}/properties', PropertyController::class);
     //tenant resources routes
     Route::resource('/{owner_id}/tenants', TenantController::class);

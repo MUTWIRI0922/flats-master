@@ -139,7 +139,7 @@
                         <a href="{{ route('userdashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
                     </li>
                     <li class="list-group-item {{ Request::is('properties') ? 'active' : '' }}">
-                        <a href=""><i class="bi bi-house"></i> My Properties</a>
+                        <a href="{{ route('properties') }}"><i class="bi bi-house"></i> My Properties</a>
                     </li>
                     <li class="list-group-item {{ Request::is('tenants') ? 'active' : '' }}">
                         <a href=""><i class="bi bi-people"></i> Tenants</a>

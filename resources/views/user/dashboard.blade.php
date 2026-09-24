@@ -2,67 +2,7 @@
 @section('title', 'Dashboard')
 @section('content')
     <style>
-        .dashboard {
-            display: flex;
-            min-height: 100vh;
-            background: #f7f8fa;
-        }
 
-
-        .main-content {
-            display: flex;
-
-            min-height: 100vh;
-        }
-
-        .topbar {
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            background: #ffffff;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .page-title {
-            font-size: 1.125rem;
-            margin: 0;
-            color: #111827;
-            font-weight: 700;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #e5e7eb;
-        }
-
-        .profile-name {
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .content {
-            padding: 24px;
-            flex: 1;
-            background: transparent;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .dashboard { flex-direction: column; }
-            .main-content { min-height: auto; }
-            .topbar { padding: 0 12px; }
-        }
         .card small{
             font-size: 0.6rem;
             margin:0;
@@ -73,7 +13,7 @@
 
     </style>
 
-    <div class="dashboard">
+    <div class="main-page">
         @include('user.sidebar')
 
         <main class="main-content">
@@ -125,7 +65,7 @@
                         <div class="col-md-3 mb-4">
                             <div class="card bg-white p-3 shadow-sm h-100">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <i class="bi bi-exclamation-triangle text-primary fs-4"></i>
+                                    <i class="bi bi-exclamation-triangle text-danger fs-4"></i>
                                     <span class="badge bg-danger rounded-pill metric-badge text-danger">3%</span>
                                 </div>
                                 <h5 class="mb-0">KShs 12,500</h5>

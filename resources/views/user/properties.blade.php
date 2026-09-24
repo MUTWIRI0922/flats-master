@@ -1,0 +1,182 @@
+@extends('layouts.app')
+@section('title', 'My Properties')
+@section('content')
+<style>
+    .type-badge {
+        --bs-bg-opacity: 0.1;
+    }
+    .stats-card {
+        border-radius: 8px;
+        --bs-bg-opacity: 0.1;
+        padding: 3px;
+    }
+    .card-links {
+        padding: 6px 12px;
+        --bs-bg-opacity: 0.2;
+        background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity));
+        border-color: transparent;
+        color: var(--bs-primary);
+        font-size: 0.8rem;
+    }
+    .add-prop-card{
+        -bs-bg-opacity: 0.7;
+        color: var(--bs-primary);
+    }
+    .add-prop-card .card-body{
+        margin: 30px;
+        border: 2px dashed var(--bs-secondary);
+        border-radius: 8px;
+    }
+    small{
+        margin: 0;
+    }
+</style>
+<div class="main-page">
+    @include('user.sidebar')    
+    <main class="main-content">
+
+        <header class="topbar">
+            <h1 class="page-title"></h1>
+
+            <div class="profile">
+                <div>
+                    <a href=""><i class="bi bi-bell fs-4"></i></a>
+                    </div>
+                    <img class="avatar" src="{{ Auth::user()->profile_photo_url ?? 'https://via.placeholder.com/40' }}" alt="Profile">
+                <div class="profile-name">{{ Auth::user()->name ?? 'User' }}</div>
+            </div>
+        </header>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8 mb-4">
+                        <div class=" p-3 h-100">
+                            <h5 class="mb-0">My uploaded properties</h5>
+                            <p class="small mb-0 mt-0">Here are your uploaded properties, with their details.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4 d-flex justify-content-end align-items-center gap-2">
+                        <a href="" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i>Add Property</a>
+                    </div>
+                </div>
+                <div>
+                    <div class="property-cards">
+                       <div class="row">
+                            
+
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-white h-100 shadow-sm">
+                                    <img src="{{asset('images/property-placeholder.jpg')}}" class="card-img-top" alt="Property Image">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <div>
+                                                <p class="mb-0 mt-0">Property Name</p>
+                                                <small class="text-muted">Location</small>
+                                            </div>
+                
+                                            <span class="badge bg-primary text-primary type-badge rounded-pill">Commercial</span>
+                                        </div>
+                                        <div class=" row d-flex align-items-center justify-content-between gap-2 mb-2">
+                                            <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
+
+                                                <h5 class="mb-0 mt-0">10</h5>
+                                                <small>Total Units</small>
+
+                                            </div>
+                                            <div class="col stats-card bg-primary d-flex flex-column align-items-center text-center">
+
+                                                <h5 class="mb-0 mt-0">10</h5>
+                                                <small>Occupied Units</small>
+
+                                            </div>
+                                            <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
+
+                                                <h5 class="mb-0 mt-0">10</h5>
+                                                <small>Vacant Units</small>
+
+                                            </div>                                 
+                                        </div>                                        
+                                        <div class="occupancy-rate">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <p class="mb-0 mt-0">Occupancy Rate</p>
+                                                <small class="text-muted">75%</small>
+                                            </div>
+                                            <div class="progress mb-3" style="height: 6px;">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class=" row d-flex align-items-center justify-content-between mb-2 gap-2">
+                                            <a href="" class="col btn btn-light  ">view units</a>
+                                            <a href="" class="col btn btn-primary card-links">Edit Property</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-white h-100 shadow-sm">
+                                    <img src="{{ $property->image_url ?? 'https://unsplash.com/photos/3d-render-modern-building-exterior-2MA8dFvOMec' }}" class="card-img-top" alt="Property Image">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <div>
+                                                <p class="mb-0 mt-0">Property Name</p>
+                                                <small class="text-muted">Location</small>
+                                            </div>
+                
+                                            <span class="badge bg-primary text-primary type-badge rounded-pill">Commercial</span>
+                                        </div>
+                                        <div class=" row d-flex align-items-center justify-content-between gap-2 mb-2">
+                                            <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
+
+                                                <h5 class="mb-0 mt-0">10</h5>
+                                                <small>Total Units</small>
+
+                                            </div>
+                                            <div class="col stats-card bg-primary d-flex flex-column align-items-center text-center">
+
+                                                <h5 class="mb-0 mt-0">10</h5>
+                                                <small>Occupied Units</small>
+
+                                            </div>
+                                            <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
+
+                                                <h5 class="mb-0 mt-0">10</h5>
+                                                <small>Vacant Units</small>
+
+                                            </div>                                 
+                                        </div>                                        
+                                        <div class="occupancy-rate">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <p class="mb-0 mt-0">Occupancy Rate</p>
+                                                <small class="text-muted">55%</small>
+                                            </div>
+                                            <div class="progress mb-3" style="height: 6px;">
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 55%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class=" row d-flex align-items-center justify-content-between mb-2 gap-2">
+                                            <a href="" class="col btn btn-light ">view units</a>
+                                            <a href="" class="col btn btn-primary card-links">Edit Property</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="col-md-4 mb-4">
+                                <div class="card add-prop-card h-100">
+                                    <div class="card-body h-100">
+                                    <a href="" class="d-flex flex-column align-items-center justify-content-center h-100 text-decoration-none text-dark">
+                                        <i class="bi bi-plus fs-1 mb-2"></i>
+                                        <p class="mb-0">Add New Property</p>
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                       </div>
+                   
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+@endsection
