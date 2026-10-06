@@ -72,9 +72,36 @@ Route::middleware('auth')->group(function () {
     //unit resources routes
     Route::resource('/{property_id}/units', UnitController::class);
     //property resources routes
+
+    // frontend test routes
     Route::get('/properties', function () {
         return view('user.properties');
     })->name('properties');
+    Route::get('/tenants', function () {
+        return view('user.tenants');
+    })->name('tenants');
+    Route::get('/payments', function(){
+        return view('user.payments');
+    })->name('payments');
+    Route::get('/expenses', function(){
+        return view('user.expenses');
+    })->name('expenses');
+    Route::get('/maintenance', function(){
+        return view('user.maintenance');
+    })->name('maintenance');
+    Route::get('/reports', function(){
+        return view('user.reports');
+    })->name('reports');
+    Route::get('/profile', function(){
+        return view('user.profile');
+    })->name('profile');
+    Route::get('/settings', function(){
+        return view('user.settings');
+    })->name('settings');
+    Route::get('/support', function(){
+        return view('user.support');
+    })->name('support');
+
     Route::resource('/{owner_id}/properties', PropertyController::class);
     //tenant resources routes
     Route::resource('/{owner_id}/tenants', TenantController::class);

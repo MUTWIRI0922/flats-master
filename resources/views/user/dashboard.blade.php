@@ -31,12 +31,12 @@
 
             <section class="content">
                 <div class="container-fluid">
-                    <div class="row mb-4">
-                        <div class="col-md-7">
-                            <h5 class="mb-0">Welcome to Your Dashboard, {{ Auth::user()->name }}!</h5>
-                            <p class="small mb-0 mt-0">Here you see what's happening in your properties.</p>
+                    <div class="page-header">
+                        <div>
+                            <h5 class="title">Welcome to Your Dashboard, {{ Auth::user()->name }}!</h5>
+                            <p class="subtitle">Here you see what's happening in your properties.</p>
                         </div>
-                        <div class="col-md-5 d-flex justify-content-end align-items-center gap-2">
+                        <div class="page-controls">
                             <a href="" class="btn btn-primary btn-sm">View Profile</a>
                             <a href="" class="btn btn-light btn-outline-primary btn-sm">View Reports</a>
                         </div>
