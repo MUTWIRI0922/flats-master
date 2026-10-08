@@ -25,28 +25,20 @@ class User extends Authenticatable
         'last_name',
         'email',
         'phone',
-        'owner_id',
         'password',
     ];
     
-    public function owner()
-    {
-        return $this->belongsTo(User::class, 'owner_id');
 
-    }
     public function tenants()
     {
-        return $this->hasMany(User::class, 'owner_id');
+        return $this->hasMany(Tenants::class, 'owner_id');
     }
     
     public function properties()
     {
         return $this->hasMany(Property::class, 'owner_id');
     }
-    public function leases()
-    {
-        return $this->hasMany(Lease::class, 'tenant_id');
-    }
+
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class, 'owner_id');

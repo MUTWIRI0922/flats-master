@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email')->unique();
+            $table->string('phone')->nullable();
+            $table->string('password');
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
         });
     }
 

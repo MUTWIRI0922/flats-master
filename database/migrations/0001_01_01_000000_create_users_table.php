@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('password');
-            $table->foreignId('owner_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
 

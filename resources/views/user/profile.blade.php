@@ -265,7 +265,6 @@
                     </div>
                     <div class="page-controls">
                         <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPropertyModal"><i class="bi bi-pencil"></i> Edit Profile</a>
-                        <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPropertyModal"><i class="bi bi-lock"></i> Change Password</a>                   
                     </div>
                 </div>
 <!-- user profile details -->

@@ -237,7 +237,7 @@
                             <input class="form-control" type="password" id="confirm_password" autocomplete="new-password" placeholder="Re-enter new password">
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary btn-sm settings-save-button" disabled>Save password (coming soon)</button>
+                    <button type="button" class="btn btn-primary btn-sm settings-save-button" disabled><i class="bi bi-lock"></i> Save password (coming soon)</button>
                 </section>
 
                 <section class="settings-section" aria-labelledby="notification-settings-heading">

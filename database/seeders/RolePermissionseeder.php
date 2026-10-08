@@ -37,6 +37,7 @@ class RolePermissionSeeder extends Seeder
             'view leases',
             'manage payments',
             'view payments',
+            'initiate payments',
             'manage maintenance requests',
             'view maintenance requests',
             'manage lease renewals',
