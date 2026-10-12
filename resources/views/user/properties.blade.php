@@ -68,114 +68,84 @@
                         <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPropertyModal"><i class="bi bi-plus"></i>Add Property</a>
                     </div>
                 </div>
+                @if (session('success'))
+                <div class="alert alert-success error-message">
+                    {{ session('success') }}
+                </div>
+                @endif
 
+                @if (session('error'))
+                <div class="alert alert-danger error-message">
+                    {{ session('error') }}
+                </div>
+                @endif                
                 <div>
                     <div class="property-cards">
                         <div class="row">
 
-
+                            @forelse($properties as $property)
                             <div class="col-md-4 mb-4">
                                 <div class="card bg-white h-100 shadow-sm">
                                     <img src="{{ asset('images/property-placeholder.jpg') }}" class="card-img-top" alt="Property Image">
                                     <div class="card-body p-4">
                                         <div class="d-flex align-items-center justify-content-between mb-2">
                                             <div>
-                                                <p class="mb-0 mt-0">Property Name</p>
-                                                <small class="text-muted">Location</small>
+                                                <p class="mb-0 mt-0">{{$property->name}}</p>
+                                                <small class="text-muted">{{$property->location}}</small>
                                             </div>
 
-                                            <span class="badge bg-primary text-primary type-badge rounded-pill">Commercial</span>
+                                            <span class="badge bg-primary text-primary type-badge rounded-pill">{{$property->type ?? 'Residential'}} </span>
                                         </div>
                                         <div class=" row d-flex align-items-center justify-content-between gap-2 mb-2">
                                             <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
 
-                                                <h5 class="mb-0 mt-0">10</h5>
-                                                <small>Total Units</small>
+                                                <h5 class="mb-0 mt-0">{{$property->units->count()}}</h5>
+                                                <small>Total units</small>
 
                                             </div>
                                             <div class="col stats-card bg-primary d-flex flex-column align-items-center text-center">
-
-                                                <h5 class="mb-0 mt-0">10</h5>
+                                                
+                                                <h5 class="mb-0 mt-0">{{$property->units->where('status', 'occupied')->count()}}</h5>
                                                 <small>Occupied Units</small>
-
+                                                
                                             </div>
                                             <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
 
-                                                <h5 class="mb-0 mt-0">10</h5>
+                                                <h5 class="mb-0 mt-0">{{$property->units->where('status', 'available')->count()}}</h5>
                                                 <small>Vacant Units</small>
 
                                             </div>
                                         </div>
+                                        @php
+                                            $occupiedUnits = $property->units->where('status', 'occupied')->count();
+                                            $totalUnits = $property->units->count();
+                                            $occupancyRate = $totalUnits > 0 ? ($occupiedUnits / $totalUnits) * 100 : 0;
+                                        @endphp
                                         <div class="occupancy-rate">
                                             <div class="d-flex align-items-center justify-content-between mb-2">
                                                 <p class="mb-0 mt-0">Occupancy Rate</p>
-                                                <small class="text-muted">75%</small>
+                                                <small class="text-muted">{{ $occupancyRate }}%</small>
                                             </div>
                                             <div class="progress mb-3" style="height: 6px;">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $occupancyRate }}%;" aria-valuenow="{{ $occupancyRate }}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                         </div>
                                         <div class=" row d-flex align-items-center justify-content-between mb-2 gap-2">
 
-                                            <a href="" class="col btn btn-primary card-links">view tenants</a>
-                                            <a href="" class="col btn btn-light  ">view units</a>
+                                            <a href="{{ route('user.property.tenants', $property->id) }}" class="col btn btn-primary card-links">view tenants</a>
+                                            <a href="{{ route('user.property.units', $property->id) }}" class="col btn btn-light  ">view units</a>
                                             <a href="" class="col btn btn-primary card-links" data-bs-toggle="modal" data-bs-target="#editPropertyModal">Edit Property</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card bg-white h-100 shadow-sm">
-                                    <img src="{{ asset('images/property-placeholder.jpg') }}" class="card-img-top" alt="Property Image">
-                                    <div class="card-body p-4">
-                                        <div class="d-flex align-items-center justify-content-between mb-2">
-                                            <div>
-                                                <p class="mb-0 mt-0">Property Name</p>
-                                                <small class="text-muted">Location</small>
-                                            </div>
-
-                                            <span class="badge bg-primary text-primary type-badge rounded-pill">Commercial</span>
-                                        </div>
-                                        <div class=" row d-flex align-items-center justify-content-between gap-2 mb-2">
-                                            <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
-
-                                                <h5 class="mb-0 mt-0">10</h5>
-                                                <small>Total Units</small>
-
-                                            </div>
-                                            <div class="col stats-card bg-primary d-flex flex-column align-items-center text-center">
-
-                                                <h5 class="mb-0 mt-0">10</h5>
-                                                <small>Occupied Units</small>
-
-                                            </div>
-                                            <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
-
-                                                <h5 class="mb-0 mt-0">10</h5>
-                                                <small>Vacant Units</small>
-
-                                            </div>
-                                        </div>
-                                        <div class="occupancy-rate">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <p class="mb-0 mt-0">Occupancy Rate</p>
-                                                <small class="text-muted">55%</small>
-                                            </div>
-                                            <div class="progress mb-3" style="height: 6px;">
-                                                <div class="progress-bar bg-primary" role="progressbar" style="width: 55%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <div class=" row d-flex align-items-center justify-content-between mb-2 gap-2">
-                                            <a href="" class="col btn btn-light ">view units</a>
-                                            <a href="" class="col btn btn-primary card-links">Edit Property</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @empty
+                                <p class="col-md-4">No Properties</p>
+                            @endforelse
                             <div class="col-md-4 mb-4">
                                 <div class="card add-prop-card h-100">
                                     <div class="card-body h-100">
-                                        <a href="" class="d-flex flex-column align-items-center justify-content-center h-100 text-decoration-none text-dark">
+                                        <a href="" class="d-flex flex-column align-items-center justify-content-center h-100 text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#addPropertyModal">
                                             <i class="bi bi-plus fs-1 mb-2"></i>
                                             <p class="mb-0">Add New Property</p>
                                         </a>

@@ -11,6 +11,8 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SpatieController;
+use App\Http\Controllers\user\UserDashboardController;
+use App\Http\Controllers\user\PropertiesController;
 
 
 
@@ -66,17 +68,30 @@ Route::middleware('auth')->group(function () {
 
 
     //user dashboard route
-    Route::get('/user/dashboard', function () {
-        return view('user.dashboard');
-    })->name('userdashboard');
+    Route::get('/user/dashboard/', [UserDashboardController::class, 'index'])->name('userdashboard');
     //unit resources routes
-    Route::resource('/{property_id}/units', UnitController::class);
-    //property resources routes
+    Route::resource('user/properties', PropertiesController::class)->names(
+        [
+            'index' => 'user.properties',
+            'create' => 'user.property.create',
+            'store' => 'user.property.store',
+            'show' => 'user.property.show',
+            'update' => 'user.property.update',
+            'edit' => 'user.property.edit',
+            'destroy' => 'user.property.destroy'
+
+        ]);
+    Route::get('/user/properties/{id}/tenants', [PropertiesController::class, 'property_tenants'])
+        ->name('user.property.tenants');
+    Route::get('/user/properties/{id}/units', [PropertiesController::class, 'property_units'])
+        ->name('user.property.units');
+    //unit import routes
+    Route::post('/units/add', [UnitController::class, 'store']);
+    Route::post('/units/{id}/import',[UnitImportController::class, 'store'])->name('units.import');
+    Route::get('/units/importtemplate',[UnitImportController::class, 'template'])->name('units.importtemplate');
+
 
     // frontend test routes
-    Route::get('/properties', function () {
-        return view('user.properties');
-    })->name('properties');
     Route::get('/tenants', function () {
         return view('user.tenants');
     })->name('tenants');
@@ -102,14 +117,11 @@ Route::middleware('auth')->group(function () {
         return view('user.support');
     })->name('support');
 
-    Route::resource('/{owner_id}/properties', PropertyController::class);
     //tenant resources routes
     Route::resource('/{owner_id}/tenants', TenantController::class);
     //lease resources routes
     Route::resource('/{owner_id}/leases', LeaseController::class);
-    //unit import routes
-    Route::get('/units/import', [UnitImportController::class, 'create']);
-    Route::post('/units/import',[UnitImportController::class, 'store']);
+
     //subscription routes
     Route::post('/subscription/renew', [SubscriptionController::class, 'renew'])->name('subscription.renew');
     Route::post('/subscription/create', [SubscriptionController::class, 'create'])->name('subscription.create');

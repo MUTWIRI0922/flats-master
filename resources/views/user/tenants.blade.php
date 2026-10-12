@@ -21,8 +21,8 @@
                 <!-- page header -->
                 <div class="page-header">
                     <div>
-                        <h5 class="title">Tenants onboarded</h5>
-                        <p class="subtitle">Here are your onboarded tenants, with their details.</p>
+                        <h5 class="title">Tenants at {{ $property->name }}</h5>
+                        <p class="subtitle">Tenants currently associated with this property's units.</p>
                     </div>
                     <div class="page-controls">
                         <a href="" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i>Add Tenant</a>
@@ -30,15 +30,6 @@
                 </div>
 
 
-                <!-- search section -->
-                <div class="search-bar d-flex flex-nowrap gap-2 mb-4">
-                    <input type="text" class="form-control flex-grow-1 bg-white" placeholder="Search tenants by name or ID...">
-                    <select name="property" id="" class="form-control w-25 flex-shrink-0 bg-white">
-                        <option value="">All Properties</option>
-                        <option value="1">Property 1</option>
-                        <option value="2">Property 2</option>
-                    </select>
-                </div>
                 <!-- tenants table -->
                 <div>
                     <div class="table-responsive">
@@ -47,24 +38,26 @@
                                 <tr>
                                     <th scope="col">Name</th>
                                     <th scope="col">Phone</th>
-                                    <th scope="col">Property/unit</th>
+                                    <th scope="col">Unit</th>
                                     <th scope="col">Lease start</th>
                                     <th scope="col">Rent status</th>
-
-                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="" class="btn btn-sm btn-primary">View</a></td>
-                                </tr>
-
+                                @forelse ($tenants as $tenant)
+                                    @php($lease = $tenant->leases->first())
+                                    <tr>
+                                        <td>{{ $tenant->first_name }} {{ $tenant->last_name }}</td>
+                                        <td>{{ $tenant->phone }}</td>
+                                        <td>{{ $lease?->unit?->unit_number ?? '—' }}</td>
+                                        <td>{{ $lease?->start_date ?? '—' }}</td>
+                                        <td>{{ $lease?->status ?? '—' }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">No tenants found for this property.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Units')
+@section('title', 'Flats Master - My Units')
 @section('content')
 <div class="main-page">
     @include('user.sidebar')
@@ -21,56 +21,61 @@
                 <!-- page header -->
                 <div class="page-header">
                     <div>
-                        <h5 class="title">Units list for Property 1</h5>
-                        <p class="subtitle"></p>
+                        <h5 class="title">Units at {{ $property->name }}</h5>
+                        <p class="subtitle">List of units available for this property.</p>
                     </div>
                     <div class="page-controls">
-                        <a href="" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i>Add Tenant</a>
+                        <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addUnitModal"><i class="bi bi-plus"></i>Add Unit</a>
+                        <a href="" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#excelUploadModal"><i class="bi bi-plus"></i>Excel Upload</a>                        
                     </div>
                 </div>
-
-
-                <!-- search section -->
-                <div class="search-bar d-flex flex-nowrap gap-2 mb-4">
-                    <input type="text" class="form-control flex-grow-1 bg-white" placeholder="Search tenants by name or ID...">
-                    <select name="property" id="" class="form-control w-25 flex-shrink-0 bg-white">
-                        <option value="">All Properties</option>
-                        <option value="1">Property 1</option>
-                        <option value="2">Property 2</option>
-                    </select>
+                @if (session('success'))
+                <div class="alert alert-success error-message">
+                    {{ session('success') }}
                 </div>
-                <!-- tenants table -->
+                @endif
+
+                @if (session('error'))
+                <div class="alert alert-danger error-message">
+                    {{ session('error') }}
+                </div>
+                @endif  
+
+                <!-- units table -->
                 <div>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Property/unit</th>
-                                    <th scope="col">Lease start</th>
-                                    <th scope="col">Rent status</th>
-
-                                    <th scope="col">Actions</th>
+                                    <th scope="col">Unit Number</th>
+                                    <th scope="col">Rent</th>
+                                    <th scope="col">Class</th>
+                                    <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><a href="" class="btn btn-sm btn-primary">View</a></td>
-                                </tr>
-
+                                @forelse ($units as $unit)
+                                    <tr>
+                                        <td>{{$unit->unit_number}}</td>
+                                        <td>{{$unit->rent_amount}}</td>
+                                        <td>{{$unit->unit_class}}</td>
+                                        <td>{{$unit->status}}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">No units found for this property.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
+                        {{ $units->links() }}
                     </div>
+                    
                 </div>
             </div>
         </section>
+        @include('user.properties.addunit')
+        @include('user.properties.excelupload')
     </main>
 </div>
 @endsection

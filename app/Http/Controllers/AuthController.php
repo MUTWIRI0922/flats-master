@@ -122,7 +122,7 @@ class AuthController extends Controller
             //     return redirect('/subscription')
             //         ->with('error', 'Your subscription is not active. Please renew to continue.');
             // }
-
+            session(['owner_id' => $user->id, 'username' => $user->first_name . ' ' . $user->last_name]);
             return redirect()->route('userdashboard')
                 ->with('success', 'Login successful.')->with('role', $role);
         }

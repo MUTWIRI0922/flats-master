@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-
 
 class UserSeeder extends Seeder
 {
@@ -14,14 +12,16 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        DB::table('users')->insert([
-            'id' => 1,
+        $user = User::updateOrCreate(
+            ['email' => 'testuser@gmail.com'],
+            [
             'first_name' => 'Test',
             'last_name' => 'User',
             'phone' => '0796635581',
-            'email' => 'testuser@gmail.com',
             'password' => bcrypt('TestUser!2026'), // Use bcrypt to hash the password
-        ]);
+            ]
+        );
+
+        $user->assignRole('Agent');
     }
 }

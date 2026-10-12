@@ -46,10 +46,12 @@
                             <div class="card bg-white p-3 shadow-sm h-100">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <i class="bi bi-people text-primary fs-4"></i>
-                                    <span class="badge bg-success rounded-pill metric-badge text-success">12%</span>
+                                    <span class="badge rounded-pill metric-badge {{ $tenantspercentageChange === null || $tenantspercentageChange >= 0 ? 'bg-success text-success' : 'bg-danger text-danger' }}">
+                                        {{ $tenantspercentageChange === null ? 'New' : (($tenantspercentageChange > 0 ? '+' : '') . number_format($tenantspercentageChange, 1) . '%') }}
+                                    </span>
                                 </div>
-                                <h5 class="mb-0">150</h5>
-                                <h6 class="mb-2"><small>Total Tenants</small></h6>
+                                <h5 class="mb-0">{{$tenantscount}}</h5>
+                                <h6 class="mb-2"><small>Tenants Housed This Month</small></h6>
                             </div>
                         </div>
                         <div class="col-md-3 mb-4">
@@ -58,7 +60,7 @@
                                     <i class="bi bi-cash-coin text-primary fs-4 "></i>
                                     <span class="badge bg-danger rounded-pill metric-badge text-danger">5%</span>
                                 </div>
-                                <h5 class="mb-0">KShs 250,000</h5>
+                                <h5 class="mb-0">{{$totalmonthlyrevenue}}</h5>
                                 <h6 class="mb-2 text-muted"><small>Monthly Rent Collection</small></h6>
                             </div>
                         </div>
@@ -75,11 +77,11 @@
                         <div class="col-md-3 mb-4">
                             <div class="card bg-white p-3 shadow-sm h-100">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <i class="bi bi-tools text-primary fs-4 "></i>
+                                    <i class="bi bi-buildings text-primary fs-4 "></i>
                                     <span class="badge bg-danger rounded-pill metric-badge text-danger">7%</span>
                                 </div>
-                                <h5 class="mb-0">10</h5>
-                                <h6 class="mb-2 text-muted"><small>Maintenance tickets</small></h6>
+                                <h5 class="mb-0">{{$listedproperties}}</h5>
+                                <h6 class="mb-2 text-muted"><small>Properties</small></h6>
                             </div>
                         </div>
                     </div>
@@ -100,28 +102,18 @@
                             <div class="card bg-white p-3 shadow-sm h-100">
                                 <h5 class="mb-0">Maintenance Tickets</h5>
                                 <ul class="list-group list-group-flush mt-3">
+                                    @forelse($activeTickets as $ticket)
                                     <li class="list-group-item d-flex align-items-center justify-content-between mb-2">
                                         <div class="">
-                                            <p class="mb-0 mt-0">Leaking faucet</p>
-                                            <small>Apartment 101, House A</small>
+                                            <p class="mb-0 mt-0">{{$activeTickets->title}}</p>
+                                            <small>{{$activeTickets->lease->unit->property->name}}, {{$activeTickets->lease->unit->unit_number}}</small>
                                         </div>
 
                                         <span class="badge bg-primary">Open</span>
                                     </li>
-                                    <li class="list-group-item d-flex align-items-center justify-content-between mb-2">
-                                        <div class="">
-                                            <p class="mb-0 mt-0">Broken window</p>
-                                            <small>Apartment 202, House B</small>
-                                        </div>
-                                        <span class="badge bg-success">Resolved</span>
-                                    </li>
-                                    <li class="list-group-item d-flex align-items-center justify-content-between mb-2">
-                                        <div class="">
-                                            <p class="mb-0 mt-0">AC not working</p>
-                                            <small>Apartment 303, House C</small>
-                                        </div>
-                                        <span class="badge bg-warning">In Progress</span>
-                                    </li>
+                                    @empty
+                                    <li class="list-group-item text-center">No pending tickets.</li>
+                                    @endforelse
                                 </ul>
                             </div>
                     </div>
@@ -140,28 +132,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @forelse($recentPayments as $payment)
                                         <tr>
-                                            <td>John Doe</td>
-                                            <td>Apartment 101, House A</td>
-                                            <td>KShs 25,000</td>
-                                            <td>2024-06-01</td>
+                                            <td>{{ $payment->lease->tenant->first_name }} {{ $payment->lease->tenant->last_name }}</td>
+                                            <td>{{ $payment->lease->property->address }}</td>
+                                            <td>KShs {{ number_format($payment->amount, 2) }}</td>
+                                            <td>{{ $payment->created_at->format('Y-m-d') }}</td>
                                             <td><span class="badge bg-success">Paid</span></td>
                                         </tr>
+                                        @empty
                                         <tr>
-                                            <td>Jane Smith</td>
-                                            <td>Apartment 202, House B</td>
-                                            <td>KShs 30,000</td>
-                                            <td>2024-06-02</td>
-                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td colspan="5" class="text-center">No recent payments found.</td>
                                         </tr>
-                                        <tr>
-                                            <td>Michael Johnson</td>
-                                            <td>Apartment 303, House C</td>
-                                            <td>KShs 28,000</td>
-                                            <td>2024-06-03</td>
-                                            <td><span class="badge bg-danger">Overdue</span></td>
-                                        </tr>
-
+                                        @endforelse
                                     </tbody>
 
                                 </table>
