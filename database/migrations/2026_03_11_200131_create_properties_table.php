@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('location');
             $table->string('amenities');
+            $table->enum('type', ['Residential', 'Commercial', 'Mixed'])->default('Commercial');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

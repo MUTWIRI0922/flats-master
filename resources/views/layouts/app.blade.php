@@ -237,6 +237,17 @@
             const pageTitle = document.querySelector(".page-title");
             pageTitle.textContent = document.title;
 
+                        // Fade out alerts after 3 seconds
+            setTimeout(function() {
+                document.querySelectorAll('.alert-success, .alert-danger, .alert-warning').forEach(function(alert) {
+                    alert.classList.add('fade');
+                    alert.style.transition = 'opacity 0.5s';
+                    alert.style.opacity = '0';
+                    setTimeout(function() {
+                        alert.remove();
+                    }, 500); // Remove from DOM after fade
+                });
+            }, 3000);
         });
 
         function topFunction() {

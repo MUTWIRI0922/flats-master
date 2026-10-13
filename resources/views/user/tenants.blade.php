@@ -21,13 +21,24 @@
                 <!-- page header -->
                 <div class="page-header">
                     <div>
-                        <h5 class="title">Tenants at {{ $property->name }}</h5>
-                        <p class="subtitle">Tenants currently associated with this property's units.</p>
+                        <h5 class="title">All tenants</h5>
+                        <p class="subtitle">Tenants currently under your management.</p>
                     </div>
                     <div class="page-controls">
-                        <a href="" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i>Add Tenant</a>
+                        <a href="{{route('tenants.create', ['owner_id' => Auth::id()])}}" class="btn btn-primary btn-sm"><i class="bi bi-plus"></i>Add Tenant</a>
                     </div>
                 </div>
+                @if (session('success'))
+                <div class="alert alert-success error-message">
+                    {{ session('success') }}
+                </div>
+                @endif
+
+                @if (session('error'))
+                <div class="alert alert-danger error-message">
+                    {{ session('error') }}
+                </div>
+                @endif          
 
 
                 <!-- tenants table -->
@@ -41,6 +52,7 @@
                                     <th scope="col">Unit</th>
                                     <th scope="col">Lease start</th>
                                     <th scope="col">Rent status</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,10 +64,14 @@
                                         <td>{{ $lease?->unit?->unit_number ?? '—' }}</td>
                                         <td>{{ $lease?->start_date ?? '—' }}</td>
                                         <td>{{ $lease?->status ?? '—' }}</td>
+                                        <td>
+                                            <a href="" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <a href="" class="btn btn-sm btn-outline-danger">Evict</a>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="text-center">No tenants found for this property.</td>
+                                        <td colspan="5" class="text-center">No tenants found yet.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

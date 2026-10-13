@@ -14,6 +14,7 @@ class Property extends Model
         'name',
         'location',
         'amenities',
+        'type',
         'status',
         'owner_id',
     ];

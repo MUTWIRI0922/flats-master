@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use SebastianBergmann\Type\FalseType;
 
 class Lease extends Model
 {
@@ -15,6 +16,7 @@ class Lease extends Model
         'end_date',
         'status',
     ];
+    public $timestamps = false;
     public function unit()
     {
         return $this->belongsTo(Unit::class, 'unit_id');

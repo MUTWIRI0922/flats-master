@@ -3,9 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Tenants extends Model
 {
+    /** @use HasFactory<UserFactory> */
+    use HasFactory, Notifiable, HasRoles;
+
     //
     protected $fillable = [
         'first_name',

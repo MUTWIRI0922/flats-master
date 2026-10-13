@@ -231,8 +231,8 @@
                 <li class="list-group-item {{ Request::routeIs('user.properties') ? 'active' : '' }}">
                     <a href="{{ route('user.properties')}}"><i class="bi bi-house"></i> My Properties</a>
                 </li>
-                <li class="list-group-item {{ Request::is('tenants') ? 'active' : '' }}">
-                    <a href="{{ route('tenants') }}"><i class="bi bi-people"></i> Tenants</a>
+                <li class="list-group-item {{ Request::is('user.tenants') ? 'active' : '' }}">
+                    <a href="{{ route('user.tenants') }}"><i class="bi bi-people"></i> Tenants</a>
                 </li>
                 <li class="list-group-item {{ Request::is('payments') ? 'active' : '' }}">
                     <a href="{{ route('payments') }}"><i class="bi bi-currency-dollar"></i> Payments</a>

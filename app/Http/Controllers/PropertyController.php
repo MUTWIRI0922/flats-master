@@ -38,6 +38,7 @@ class PropertyController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:properties',
             'location' => 'required|string|max:255',
+            'type' => 'required|in:Residential,Commercial,Mixed',
             'amenities' => 'nullable|string',
         ]);
         $validatedData['owner_id'] = $owner_id;

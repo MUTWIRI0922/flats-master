@@ -86,15 +86,29 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/properties/{id}/units', [PropertiesController::class, 'property_units'])
         ->name('user.property.units');
     //unit import routes
-    Route::post('/units/add', [UnitController::class, 'store']);
+    Route::resource('/units/add', UnitController::class)->names(
+        [
+            'index' => 'units.add',
+            'create' => 'units.create',
+            'store' => 'units.store',
+            'show' => 'units.show',
+            'update' => 'units.update',
+            'edit' => 'units.edit',
+            'destroy' => 'units.destroy'
+        ]);
     Route::post('/units/{id}/import',[UnitImportController::class, 'store'])->name('units.import');
     Route::get('/units/importtemplate',[UnitImportController::class, 'template'])->name('units.importtemplate');
 
-
-    // frontend test routes
-    Route::get('/tenants', function () {
-        return view('user.tenants');
-    })->name('tenants');
+    Route::resource('user/tenants', TenantController::class)->names(
+        [
+            'index' => 'user.tenants',
+            'create' => 'user.tenant.create',
+            'store' => 'user.tenant.store',
+            'show' => 'user.tenant.show',
+            'update' => 'user.tenant.update',
+            'edit' => 'user.tenant.edit',
+            'destroy' => 'user.tenant.destroy'
+        ]);
     Route::get('/payments', function(){
         return view('user.payments');
     })->name('payments');

@@ -44,6 +44,7 @@ class PropertiesController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:properties',
             'location' => 'required|string|max:255',
+            'type' => 'required|in:Residential,Commercial,Mixed',
             'amenities' => 'nullable|string',
         ]);
         $validatedData['owner_id'] = session()->get('owner_id');
@@ -97,6 +98,7 @@ class PropertiesController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
+            'type' => 'required|in:Residential,Commercial,Mixed',
             'amenities' => 'nullable|string',
         ]);
         //update the property
