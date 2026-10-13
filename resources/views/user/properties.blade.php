@@ -94,7 +94,7 @@
                                                 <small class="text-muted">{{$property->location}}</small>
                                             </div>
 
-                                            <span class="badge bg-primary text-primary type-badge rounded-pill">{{$property->type ?? 'Residential'}} </span>
+                                            <span class="badge bg-primary text-primary type-badge rounded-pill">{{$property->type}} </span>
                                         </div>
                                         <div class=" row d-flex align-items-center justify-content-between gap-2 mb-2">
                                             <div class="col stats-card bg-secondary d-flex flex-column align-items-center text-center">
@@ -158,7 +158,9 @@
                     </div>
                 </div>
                 @include('user.properties.add')
-                @include('user.properties.edit')
+                @if($properties->isNotEmpty())
+                    @include('user.properties.edit')
+                @endif
             </div>
 
         </section>

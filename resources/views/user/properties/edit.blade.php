@@ -39,10 +39,10 @@
                                 <option value="commercial">Commercial</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-6">
+                        <!-- <div class="col-12 col-md-6">
                             <label for="property_units" class="form-label">Number of Units</label>
                             <input type="number" class="form-control" id="property_units" name="property_units">
-                        </div>
+                        </div> -->
                         <div class="col-12">
                             <label for="property_features" class="form-label">Features</label>
                             <textarea class="form-control" id="property_features" name="amenities" rows="3">{{$property->amenities}}</textarea>

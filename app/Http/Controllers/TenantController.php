@@ -10,6 +10,8 @@ use App\Models\Lease;
 use App\Models\Unit;
 use App\Services\LeaseService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TenantWelcome;
 use Illuminate\Support\Arr;
 
 class TenantController extends Controller
@@ -60,17 +62,13 @@ class TenantController extends Controller
         );           
         $validatedData['owner_id'] = $owner_id;
         $validatedData['role'] = 'Tenant';
-        //generate random password for tenant
-        function getRandomString($length = 10)
-        {
-            return bin2hex(random_bytes($length / 2));
-        }
-        $pword = getRandomString();
+        // Generate a one-time password for the tenant.
+        $pword = bin2hex(random_bytes(5));
 
         $validatedData['password'] = bcrypt($pword);
         
         try {
-            $tenant = DB::transaction(function () use ($validatedData, $leaseService) {
+            $result = DB::transaction(function () use ($validatedData, $leaseService) {
                 $unit = Unit::where('property_id', $validatedData['property_id'])
                     ->where('status', 'available')
                     ->lockForUpdate()
@@ -86,9 +84,14 @@ class TenantController extends Controller
                 ]));
                 
                 $leaseService->createForTenant($tenant, $unit);
+
+                return compact('tenant', 'unit');
             });
+            $tenant = $result['tenant'];
+            $unit = $result['unit'];
             // Send email to the tenant with their login details
-                $to_email = $validatedData['email'];
+            $property = Property::find($validatedData['property_id']);
+            Mail::to($validatedData['email'])->queue(new TenantWelcome($tenant, $property, $unit, $pword));
             return redirect()->route('user.tenants')->with('success', 'Tenant created successfully');
         } catch (\Exception $e) {
             // Handle any exceptions that may occur during tenant creation

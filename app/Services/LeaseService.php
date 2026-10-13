@@ -8,7 +8,7 @@ use App\Models\Unit;
 
 class LeaseService
 {
-    public function createForTenant(Tenants $tenant, Unit $unit): Lease
+    public function createForTenant(Tenants $tenant, Unit $unit): array
     {
         $lease = Lease::create([
             'tenant_id' => $tenant->id,
@@ -20,6 +20,6 @@ class LeaseService
 
         $unit->update(['status' => 'occupied']);
 
-        return $lease;
+        return [$lease, $tenant, $unit];
     }
 }
