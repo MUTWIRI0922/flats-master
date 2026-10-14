@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TenantWelcome;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
 
 class TenantController extends Controller
 {
@@ -21,10 +22,10 @@ class TenantController extends Controller
      */
     public function index()
     {
-        $user_id = session()->get('owner_id');
+        $owner_id = session()->get('owner_id');
         //list of all tenants for a landlord/agent
-        $tenants = Tenants::where('owner_id', $user_id)->with('leases')->paginate(15);
-        return view('user.tenants', compact('tenants'));
+        $tenants = Tenants::where('owner_id', $owner_id)->with('leases')->orderBy('created_at', 'desc')->paginate(15);
+        return view('user.tenants', compact('tenants', 'owner_id'));
     }
 
     /**
@@ -42,7 +43,7 @@ class TenantController extends Controller
      */
     public function store(Request $request, string $owner_id, LeaseService $leaseService)
     {
-     
+
         //validate form data
         $validatedData = $request->validate(
             [
@@ -51,22 +52,30 @@ class TenantController extends Controller
                 'email' => 'required|string|email|max:255|unique:Tenants',
                 'phone' => 'required|string|unique:Tenants',
                 'property_id' => 'required|exists:properties,id',
-                'unit_id' => 'required|exists:units,id',
+                'unit_id' => [
+                    'required',
+                    Rule::exists('units', 'id')
+                        ->where('property_id', $request->input('property_id'))
+                        ->where('status', 'available'),
+                ],
 
-            ], [
+            ],
+            [
+
                 'email.required' => 'Email is required',
                 'phone.required' => 'Phone number is required',
                 'email.unique' => 'The email is already registered.',
                 'phone.unique' => 'The phone number is already in use.',
+                'unit_id.exists' => 'The selected unit is not available for this property.',
             ]
-        );           
+        );
         $validatedData['owner_id'] = $owner_id;
         $validatedData['role'] = 'Tenant';
         // Generate a one-time password for the tenant.
         $pword = bin2hex(random_bytes(5));
 
         $validatedData['password'] = bcrypt($pword);
-        
+
         try {
             $result = DB::transaction(function () use ($validatedData, $leaseService) {
                 $unit = Unit::where('property_id', $validatedData['property_id'])
@@ -82,7 +91,7 @@ class TenantController extends Controller
                     'owner_id',
                     'password',
                 ]));
-                
+
                 $leaseService->createForTenant($tenant, $unit);
 
                 return compact('tenant', 'unit');
@@ -104,11 +113,14 @@ class TenantController extends Controller
      */
     public function show(string $id)
     {
-        //
-        $tenant = User::find($id);
-        return [
-            'tenant' => $tenant
-        ];
+        $owner_id = session()->get('owner_id');
+        $tenant = Tenants::find($id);
+        if (!$tenant) {
+            return redirect()->back()->with('error', 'Tenant not found')->withInput();
+        } else if ($tenant->owner_id != $owner_id) {
+            return redirect()->back()->with('error', 'You cannot view this tenant')->withInput();
+        }
+        return view('user.tenants.view', compact('tenant'));
     }
 
     /**
@@ -116,11 +128,15 @@ class TenantController extends Controller
      */
     public function edit(string $id)
     {
+        $owner_id = session()->get('owner_id');
         //get tenant details for editing
-        $tenant = User::find($id);
-        return [
-            'tenant' => $tenant
-        ];
+        $tenant = Tenants::find($id);
+        if (!$tenant) {
+            return redirect()->back()->with('error', 'Tenant not found')->withInput();
+        } else if ($tenant->owner_id != $owner_id) {
+            return redirect()->back()->with('error', 'Unauthorized')->withInput();
+        }
+        return view('user.tenants.edit', compact('tenant'));
     }
 
     /**
@@ -128,63 +144,82 @@ class TenantController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $owner_id = session()->get('owner_id');
         //cehck if tenant exists
-        $tenant = User::find($id);
+        $tenant = Tenants::find($id);
+
         if (!$tenant) {
-            return response()->json([
-                'message' => 'Tenant not found'
-            ], 404);
+            return redirect()->back()->with('error', 'Tenant not found')->withInput();
+        } else if ($tenant->owner_id != $owner_id) {
+            return redirect()->back()->with('error', 'Unauthorized')->withInput();
         }
         //validate form data
         $validatedData = request()->validate(
             [
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:User,email,'.$tenant->id,
-                'phone' => 'required|integer|min:10|max:12|unique:User,phone,'.$tenant->id,
+                'email' => 'required|string|email|max:255|unique:Tenants,email,' . $tenant->id,
+                'phone' => 'required|string|unique:Tenants,phone,' . $tenant->id,
 
-            ], [
+            ],
+            [
+                'email.email' => 'The email must be a valid email address.',
+                'last_name.string' => 'The last name must be a string.',
+                'first_name.string' => 'The first name must be a string.',
+                'phone.string' => 'The phone number must be a valid string.',
                 'email.unique' => 'The email is already registered.',
                 'phone.unique' => 'The phone number is already in use.',
-            ]);
+            ]
+        );
         //update tenant details
         try {
             $tenant->update($validatedData);
-            return response()->json([
-                'message' => 'Tenant updated successfully',
-                'tenant' => $tenant
-            ], 200);
+            return redirect()->route('user.tenants')->with('success', 'Tenant updated successfully');
         } catch (\Exception $e) {
             // Handle any exceptions that may occur during tenant update
-            return response()->json([
-                'message' => 'Failed to update tenant',
-                'error' => $e->getMessage()
-            ], 500);
+            return redirect()->back()->with('error', 'Failed to update tenant')->withInput();
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id, string $owner_id)
+    public function destroy(string $id)
     {
+        $owner_id = session()->get('owner_id');
         //
-        $tenant = User::find($id);
+        $tenant = Tenants::find($id);
         if (!$tenant) {
-            return response()->json([
-                'message' => 'Tenant not found'
-            ], 404);
+            return redirect()->back()->with('error', 'Tenant not found')->withInput();
         }
         //check if tenant belongs to the landlord/agent
         if ($tenant->owner_id != $owner_id) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+            return redirect()->back()->with('error', 'Unauthorized')->withInput();
         }
-        //delete tenant
-        $tenant->delete();
-        return response()->json([
-            'message' => 'Tenant deleted successfully'
-        ], 200);
+        try {
+            $result = DB::transaction(function () use ($tenant, $id) {
+                //set the unit status to available
+                $lease = Lease::where('tenant_id', $id)->first();
+                if ($lease) {
+                    $unit = Unit::find($lease->unit_id);
+                    if ($unit) {
+                        $unit->status = 'available';
+                        $unit->save();
+                    }
+                    $lease->status = 'terminated';
+                    $lease->save();
+                }
+                $tenant->delete();
+            });
+            if ($result) {
+                return redirect()->back()->with('success', 'Tenant deleted successfully');
+            } else {
+                return redirect()->back()->with('error', 'Failed to delete tenant');
+            }
+        } catch (\Exception $e) {
+            // Handle any exceptions that may occur during tenant deletion
+            return redirect()->back()->with('error', 'Failed to delete tenant');
+        }       
+
     }
 }

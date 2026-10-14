@@ -109,6 +109,9 @@ Route::middleware('auth')->group(function () {
             'edit' => 'user.tenant.edit',
             'destroy' => 'user.tenant.destroy'
         ]);
+    Route::get('user/{id}/profile', [AuthController::class, 'userprofileview'])->name('profile');
+    Route::put('user/{id}/profile', [AuthController::class, 'update'])->name('user.profile.update');
+
     Route::get('/payments', function(){
         return view('user.payments');
     })->name('payments');
@@ -121,9 +124,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', function(){
         return view('user.reports');
     })->name('reports');
-    Route::get('/profile', function(){
-        return view('user.profile');
-    })->name('profile');
     Route::get('/settings', function(){
         return view('user.settings');
     })->name('settings');

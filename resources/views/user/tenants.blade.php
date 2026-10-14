@@ -32,14 +32,17 @@
                 <div class="alert alert-success error-message">
                     {{ session('success') }}
                 </div>
+                @endif         
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
-
-                @if (session('error'))
-                <div class="alert alert-danger error-message">
-                    {{ session('error') }}
-                </div>
-                @endif          
-
 
                 <!-- tenants table -->
                 <div>
@@ -65,8 +68,14 @@
                                         <td>{{ $lease?->start_date ?? '—' }}</td>
                                         <td>{{ $lease?->status ?? '—' }}</td>
                                         <td>
-                                            <a href="" class="btn btn-sm btn-outline-primary">Edit</a>
-                                            <a href="" class="btn btn-sm btn-outline-danger">Evict</a>
+                                            <a href="{{ route('user.tenant.edit', $tenant->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                            <a href="{{ route('user.tenant.show', $tenant->id) }}" class="btn btn-sm btn-info">View</a>
+                                            <!-- <form action="{{ route('user.tenant.destroy', $tenant->id) }}" method="POST" style="display: inline;">
+                                                @csrf   
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm
+                                                ('Are you sure you want to delete this tenant?')">Delete</button>
+                                            </form> -->
                                         </td>
                                     </tr>
                                 @empty

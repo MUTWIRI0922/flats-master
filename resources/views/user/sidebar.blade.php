@@ -250,7 +250,7 @@
                     <a href="{{ route('settings') }}"><i class="bi bi-gear"></i> Settings</a>
                 </li>
                 <li class="list-group-item {{ Request::is('profile') ? 'active' : '' }}">
-                    <a href="{{ route('profile') }}"><i class="bi bi-person"></i> Profile</a>
+                    <a href="{{ route('profile', Auth::id()) }}"><i class="bi bi-person"></i> Profile</a>
                 </li>
                 <li class="list-group-item {{ Request::is('support') ? 'active' : '' }}">
                     <a href="{{ route('support') }}"><i class="bi bi-question-circle"></i> Support</a>

@@ -264,10 +264,24 @@
                         <p class="subtitle">Manage your profile information and preferences.</p>
                     </div>
                     <div class="page-controls">
-                        <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPropertyModal"><i class="bi bi-pencil"></i> Edit Profile</a>
+                        <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal"><i class="bi bi-pencil"></i> Edit Profile</a>
                     </div>
                 </div>
-<!-- user profile details -->
+                @if (session('success'))
+                <div class="alert alert-success error-message">
+                    {{ session('success') }}
+                </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif                
+                <!-- user profile details -->
                 <div class="profile-overview mb-4">
                     <div class="profile-banner"></div>
                     <div class="profile-overview-body">
@@ -277,17 +291,17 @@
                                     <img src="{{ $user->profile_photo_url }}" alt="{{ $profileName }}">
                                     <i class="bi bi-camera"></i>
                                 @else
-                                    {{ $profileInitials ?? 'UN' }}
+                                    {{ Str::upper(Str::substr($user->first_name, 0, 1)) . Str::upper(Str::substr($user->last_name, 0, 1)) ?? 'UN' }}
                                 @endif
                             </div>
                             <div class="profile-identity-copy">
-                                <h2>{{ $profileName ?? 'User Name' }}</h2>
+                                <h2>{{ $user->first_name . ' ' . $user->last_name ?? 'User Name' }}</h2>
                                 <p>{{ $user->email ?? 'Email not specified' }}</p>
                             </div>
                         </div>
                         <span class="profile-account-type">
                             <i class="bi bi-person-badge" aria-hidden="true"></i>
-                            {{ $accountType ?? 'Account type not specified' }}
+                            {{ $user->getRoleNames()->first() ?? 'Account type not specified' }}
                         </span>
                     </div>
                 </div>
@@ -321,7 +335,7 @@
                                 <span class="profile-detail-icon"><i class="bi bi-calendar3" aria-hidden="true"></i></span>
                                 <div>
                                     <span class="profile-detail-label">Member since</span>
-                                    <span class="profile-detail-value">today</span>
+                                    <span class="profile-detail-value">{{ $user->created_at->format('F j, Y') }}</span>
                                 </div>
                             </div>
                         </section>
@@ -340,6 +354,7 @@
             </div>
 
         </section>
+        @include('user.editprofile')
     </main>
 </div>
 @endsection

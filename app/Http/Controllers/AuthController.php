@@ -67,8 +67,8 @@ class AuthController extends Controller
         [
             'first_name'=> 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:User',
-            'phone' => 'required|integer|min:10|max:12|unique:User',
+            'email' => 'required|string|email|max:255|unique:Users,email,'.$user->id,
+            'phone' => 'required|string|unique:Users,phone,'.$user->id,
 
         ],[
             'email.unique' => 'The email is already registered.',
@@ -76,7 +76,7 @@ class AuthController extends Controller
         ]
         );
         try{
-            $user = User::update($validatedData);
+            $user->update($validatedData);
             return back()->with('success', 'User updated successfully');
         } catch(\Exception)
         {
@@ -123,6 +123,7 @@ class AuthController extends Controller
             //         ->with('error', 'Your subscription is not active. Please renew to continue.');
             // }
             session(['owner_id' => $user->id, 'username' => $user->first_name . ' ' . $user->last_name]);
+
             return redirect()->route('userdashboard')
                 ->with('success', 'Login successful.')->with('role', $role);
         }
@@ -221,6 +222,23 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         return view('admin.edit-profile', compact('user'));
+    }
+    public function userprofileview(Request $request, $id)
+    {
+        $user = User::find($id);
+        
+        if (!$user) {
+            abort(404);
+        }
+        return view('user.profile', compact('user'));
+    }
+    public function userprofileedit(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            abort(404);
+        }
+        return view('user.edit-profile', compact('user'));
     }
 
 }

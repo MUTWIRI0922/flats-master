@@ -1,14 +1,3 @@
-<style>
-    .modal-content {
-        border-radius: 0.5rem;
-    }
-    #addPropertyModal{
-        font-size: 0.75rem;
-    }
-    select option {
-        font-size: 0.75rem;
-    }
-</style>
 <div class="modal fade" id="excelUploadModal" tabindex="-1" aria-labelledby="excelUploadModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
